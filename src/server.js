@@ -12,3 +12,6 @@ app.use(router);
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
 });
+
+
+console.log("hello")
