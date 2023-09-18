@@ -1,51 +1,63 @@
-import con from '../db/database.js';
+import {
+  createArtist_db,
+  deleteArtist_db,
+  readAllArtists_db,
+  readArtistById_db,
+  updateArtist_db,
+} from '../models/artists.models.js';
 
-export const readAllArtists = (req, res) => {
-  con.query('SELECT * FROM Artists', (err, results) => {
-    if (err) throw err;
-    res.status(200).json(results);
-  });
-};
+export function readAllArtists(req, res) {
+  const artists = readAllArtists_db();
+  if (err) throw err;
+  res.status(200).json(artists);
+}
 
-export const readArtistById = (req, res) => {
+export function readArtistById(req, res) {
   const id = req.params.id;
-  con.query('SELECT * FROM Artists WHERE id = ?', [id], (err, results) => {
-    if (err) throw err;
-    res.status(200).json(results);
-  });
-};
+  const artist = readArtistById_db(id);
+  if (err) throw err;
+  res.status(200).json(artist);
+}
 
-export const updateArtist = (req, res) => {
+export function updateArtist(req, res) {
   const id = req.params.id;
   const { name, website, image, birthdate, activeSince, genres, labels } =
     req.body;
-  con.query(
-    'UPDATE Artists SET name = ?, website = ?, image = ?, birthdate = ?, activeSince = ?, genres = ?, labels = ? WHERE id = ?',
-    [name, website, image, birthdate, activeSince, genres, labels, id],
-    (err, results) => {
-      if (err) throw err;
-      res.status(200).json(results);
-    }
-  );
-};
 
-export const createArtist = (req, res) => {
+  const artist = updateArtist_db(
+    id,
+    name,
+    website,
+    image,
+    birthdate,
+    activeSince,
+    genres,
+    labels
+  );
+  if (err) throw err;
+  res.status(200).json(artist);
+}
+
+export function createArtist(req, res) {
   const { name, website, image, birthdate, activeSince, genres, labels } =
     req.body;
-  con.query(
-    'INSERT INTO Artists name = ?, website = ?, image = ?, birthdate = ?, activeSince = ?, genres = ?, labels = ? VALUES (?, ?, ?, ?, ?, ?, ?)',
-    [name, website, image, birthdate, activeSince, genres, labels],
-    (err, results) => {
-      if (err) throw err;
-      res.status(200).json(results);
-    }
-  );
-};
 
-export const deleteArtist = (req, res) => {
+  const artist = createArtist_db(
+    name,
+    website,
+    image,
+    birthdate,
+    activeSince,
+    genres,
+    labels
+  );
+  if (err) throw err;
+  res.status(200).json(artist);
+}
+
+export function deleteArtist(req, res) {
   const id = req.params.id;
-  con.query('DELETE FROM Artists WHERE id = ?', [id], (err, results) => {
-    if (err) throw err;
-    res.status(200).json(results);
-  });
-};
+  const artist = deleteArtist_db(id);
+  if (err) throw err;
+  res.status(200).json(artist);
+}

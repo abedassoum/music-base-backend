@@ -4,11 +4,12 @@ import {
   updateArtist,
   createArtist,
   deleteArtist,
+  readArtistById,
 } from '../controllers/artists.controller.js';
 
 export default Router()
-  //artists
   .get('/', readAllArtists)
+  .get('/:id', readArtistById)
   .post('/', createArtist)
   .put('/:id', updateArtist)
   .delete('/:id', deleteArtist);
