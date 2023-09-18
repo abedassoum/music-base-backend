@@ -5,13 +5,15 @@
   "main": "src/server.js",
   "type": "module",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "mysql2": "^3.6.1"
   },
