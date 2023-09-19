@@ -13,7 +13,7 @@ const dbconfig = {
 
 if (process.env.MYSQL_CERT) {
   dbconfig.ssl = {
-    cs: fs.readFileSync('DigiCertGlobalRootG2.crt.pem'),
+    cs: fs.readFileSync('DigiCertGlobalRootCA.crt.pem'),
   };
 }
 
