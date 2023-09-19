@@ -1,6 +1,6 @@
 import connection from '../db/database.js';
 
-export function readAllalbums_db() {
+export function readAllAlbums_db() {
   connection.query('SELECT * FROM albums', (err, results) => {
     if (err) throw err;
     return results;

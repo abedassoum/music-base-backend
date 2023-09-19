@@ -6,58 +6,80 @@ import {
   updateArtist_db,
 } from '../models/artists.models.js';
 
-export function readAllArtists(req, res) {
-  const artists = readAllArtists_db();
-  if (err) throw err;
-  res.status(200).json(artists);
+export async function readAllArtists(req, res) {
+  try {
+    const artists = await readAllArtists_db();
+    res.status(200).json(artists);
+  } catch (err) {
+    console.error(err);
+    res
+      .status(500)
+      .json({ error: 'An error occurred while fetching artists.' });
+  }
 }
 
-export function readArtistById(req, res) {
+export async function readArtistById(req, res) {
   const id = req.params.id;
-  const artist = readArtistById_db(id);
-  if (err) throw err;
-  res.status(200).json(artist);
+  try {
+    const artist = await readArtistById_db(id);
+    res.status(200).json(artist);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'An error occurred while fetching artist.' });
+  }
 }
 
-export function updateArtist(req, res) {
+export async function updateArtist(req, res) {
   const id = req.params.id;
   const { name, website, image, birthdate, activeSince, genres, labels } =
     req.body;
 
-  const artist = updateArtist_db(
-    id,
-    name,
-    website,
-    image,
-    birthdate,
-    activeSince,
-    genres,
-    labels
-  );
-  if (err) throw err;
-  res.status(200).json(artist);
+  try {
+    const artist = await updateArtist_db(
+      id,
+      name,
+      website,
+      image,
+      birthdate,
+      activeSince,
+      genres,
+      labels
+    );
+    res.status(200).json(artist);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'An error occurred while updating artist.' });
+  }
 }
 
-export function createArtist(req, res) {
+export async function createArtist(req, res) {
   const { name, website, image, birthdate, activeSince, genres, labels } =
     req.body;
 
-  const artist = createArtist_db(
-    name,
-    website,
-    image,
-    birthdate,
-    activeSince,
-    genres,
-    labels
-  );
-  if (err) throw err;
-  res.status(200).json(artist);
+  try {
+    const artist = await createArtist_db(
+      name,
+      website,
+      image,
+      birthdate,
+      activeSince,
+      genres,
+      labels
+    );
+    res.status(200).json(artist);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'An error occurred while creating artist.' });
+  }
 }
 
 export function deleteArtist(req, res) {
   const id = req.params.id;
-  const artist = deleteArtist_db(id);
-  if (err) throw err;
-  res.status(200).json(artist);
+  try {
+    deleteArtist_db(id);
+    res.status(200).json({ message: 'Artist deleted successfully.' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'An error occurred while deleting artist.' });
+  }
 }
