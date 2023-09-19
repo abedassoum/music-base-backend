@@ -1,14 +1,14 @@
 import connection from '../db/database.js';
 
 export function readAllArtists_db() {
-  connection.query('SELECT * FROM Artists', (err, results) => {
+  connection.query('SELECT * FROM artists', (err, results) => {
     if (err) throw err;
     return results;
   });
 }
 
 export function readArtistById_db(id) {
-  connection.query('SELECT * FROM Artists WHERE id = ?', [id], (err, results) => {
+  connection.query('SELECT * FROM artists WHERE id = ?', [id], (err, results) => {
     if (err) throw err;
     return results;
   });
@@ -25,7 +25,7 @@ export function updateArtist_db(
   labels
 ) {
   connection.query(
-    'UPDATE Artists SET name = ?, website = ?, image = ?, birthdate = ?, activeSince = ?, WHERE id = ?',
+    'UPDATE artists SET name = ?, website = ?, image = ?, birthdate = ?, activeSince = ?, WHERE id = ?',
     [name, website, image, birthdate, activeSince, id],
     (err, results) => {
       if (err) throw err;
@@ -47,7 +47,7 @@ export function createArtist_db(
   // array of label ids ["Sony", "Warner", "Universal"] connection.query('SELECT * FROM Labels WHERE name IN (?)', [labels], (err, results) => { if (err) throw err; return results; });
 ) {
   connection.query(
-    'INSERT INTO Artists (name, website, image, birthdate, activeSince) VALUES (?, ?, ?, ?, ?)',
+    'INSERT INTO artists (name, website, image, birthdate, activeSince) VALUES (?, ?, ?, ?, ?)',
     [name, website, image, birthdate, activeSince],
     (err, results) => {
       if (err) throw err;
@@ -59,7 +59,7 @@ export function createArtist_db(
 }
 
 export function deleteArtist_db(id) {
-  connection.query('DELETE FROM Artists WHERE id = ?', [id], (err, results) => {
+  connection.query('DELETE FROM artists WHERE id = ?', [id], (err, results) => {
     if (err) throw err;
     return results;
   });
