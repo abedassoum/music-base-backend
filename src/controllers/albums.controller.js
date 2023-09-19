@@ -4,7 +4,7 @@ import {
   readAlbumById_db,
   readAllAlbums_db,
   updateAlbum_db,
-} from '../models/albums.models';
+} from '../models/albums.models.js';
 
 export function readAllAlbums(req, res) {
   const albums = readAllAlbums_db();

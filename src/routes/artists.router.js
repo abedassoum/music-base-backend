@@ -5,7 +5,7 @@ import {
   createArtist,
   deleteArtist,
   readArtistById,
-} from '../controllers/artists.controller.js';
+} from '../controllers/artists.contoller.js';
 
 export default Router()
   .get('/', readAllArtists)
