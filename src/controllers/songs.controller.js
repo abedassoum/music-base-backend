@@ -5,94 +5,76 @@ import {
   createSong_db,
   deleteSong_db,
 } from '../models/songs.models.js';
-  
 
 export async function readAllSongs(req, res) {
-  const songs = await readAllSongs_db();
-  if (!songs) {
-    res.status(500).json({ error: 'Failed to retrieve songs' });
-  } else {
+  try {
+    const songs = await readAllSongs_db();
     res.status(200).json(songs);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'An error occured while fetching songs' });
   }
 }
 
 export async function readSongById(req, res) {
   const id = req.params.id;
-  const song = await readSongById_db(id);
-  if (!song) {
-    res.status(404).json({ error: 'Song not found' });
-  } else {
+  try {
+    const song = await readSongById_db(id);
     res.status(200).json(song);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: 'An error occure while fetching song' });
   }
 }
 
 export async function updateSong(req, res) {
   const id = req.params.id;
-  const { name, year, image, artist, genres, labels } = req.body;
+  const { title, duration, releaseDate, bonus_track, artist_id, album_id } =
+    req.body;
 
-  const updatedSong = await updateSong_db(id, name, year, image, artist, genres, labels);
-  if (!updatedSong) {
-    res.status(500).json({ error: 'Failed to update song' });
-  } else {
+  try {
+    const updatedSong = await updateSong_db(
+      title,
+      duration,
+      releaseDate,
+      bonus_track,
+      artist_id,
+      album_id,
+      id
+    );
     res.status(200).json(updatedSong);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: 'An error occured while updating song' });
   }
 }
 
 export async function createSong(req, res) {
-  const { name, year, image, artist, genres, labels } = req.body;
-
-  const newSong = await createSong_db(name, year, image, artist, genres, labels);
-  if (!newSong) {
-    res.status(500).json({ error: 'Failed to create song' });
-  } else {
+  const { title, duration, releaseDate, bonus_track, artist_id, album_id } =
+    req.body;
+  try {
+    const newSong = await createSong_db(
+      title,
+      duration,
+      releaseDate,
+      bonus_track,
+      artist_id,
+      album_id
+    );
     res.status(200).json(newSong);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: 'Failed to create song' });
   }
 }
 
 export async function deleteSong(req, res) {
   const id = req.params.id;
-  const deletedSong = await deleteSong_db(id);
-  if (!deletedSong) {
-    res.status(500).json({ error: 'Failed to delete song' });
-  } else {
-    res.status(200).json(deletedSong);
+  try {
+    deleteSong_db(id);
+    res.status(200).json({message: 'Song deleted successfully'})
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: 'An error occured while deleting song'});
   }
 }
-
-
-// export function readAllSongs(req, res) {
-//   const songs = readAllSongs_db();
-//   if (err) throw err;
-//   res.status(200).json(songs);
-// }
-
-// export function readSongById(req, res) {
-//   const id = req.params.id;
-//   const song = readSongById_db(id);
-//   if (err) throw err;
-//   res.status(200).json(song);
-// }
-
-// export function updateSong(req, res) {
-//   const id = req.params.id;
-//   const { name, year, image, artist, genres, labels } = req.body;
-
-//   const song = updateSong_db(id, name, year, image, artist, genres, labels);
-//   if (err) throw err;
-//   res.status(200).json(song);
-// }
-
-// export function createSong(req, res) {
-//   const { name, year, image, artist, genres, labels } = req.body;
-
-//   const song = createSong_db(name, year, image, artist, genres, labels);
-//   if (err) throw err;
-//   res.status(200).json(song);
-// }
-
-// export function deleteSong(req, res) {
-//   const id = req.params.id;
-//   const song = deleteSong_db(id);
-//   if (err) throw err;
-//   res.status(200).json(song);
-// }
