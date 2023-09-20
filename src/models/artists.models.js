@@ -100,8 +100,8 @@ export function updateArtist_db(
   image,
   birthdate,
   activeSince,
-  genres,
-  labels
+  genres, // Array of genres [ "Rap", "Rock", etc...]
+  labels // Array of labels ["XL recordings", "Def Jam", etc...]
 ) {
   return new Promise((resolve, reject) => {
     connection.query(
@@ -167,8 +167,8 @@ export function createArtist_db(
   image,
   birthdate,
   activeSince,
-  genres,
-  labels
+  genres, // Array of genres [ "Rap", "Rock"]
+  labels // Array of labels ["XL recordings", "Def Jam"]
 ) {
   return new Promise((resolve, reject) => {
     connection.query(
