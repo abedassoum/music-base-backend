@@ -29,7 +29,7 @@ export async function readSongById(req, res) {
 
 export async function updateSong(req, res) {
   const id = req.params.id;
-  const { title, duration, releaseDate, bonus_track, artist_id, album_id } =
+  const { title, duration, releaseDate, bonus_track} =
     req.body;
 
   try {
@@ -37,9 +37,7 @@ export async function updateSong(req, res) {
       title,
       duration,
       releaseDate,
-      bonus_track,
-      artist_id,
-      album_id,
+      bonus_track,   
       id
     );
     res.status(200).json(updatedSong);
@@ -61,6 +59,8 @@ export async function createSong(req, res) {
       artist_id,
       album_id
     );
+    
+    console.log(newSong);
     res.status(200).json(newSong);
   } catch (err) {
     console.log(err);

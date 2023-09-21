@@ -32,14 +32,12 @@ export function updateSong_db(
   duration,
   releaseDate,
   bonus_track,
-  artist_id,
-  album_id,
   id
 ) {
   return new Promise((resolve, reject) => {
     connection.query(
-      'UPDATE songs SET title = ?, duration = ?, releaseDate = ?, bonus_track = ?, artist_id = ?, album_id = ? WHERE id = ?',
-      [title, duration, releaseDate, bonus_track, artist_id, album_id, id],
+      'UPDATE songs SET title = ?, duration = ?, releaseDate = ?, bonus_track = ? WHERE id = ?',
+      [title, duration, releaseDate, bonus_track, id],
       (err, results) => {
         if (err) {
           reject(err);
@@ -57,17 +55,16 @@ export function createSong_db(
   duration,
   releaseDate,
   bonus_track,
-  artist_id,
-  album_id
 ) {
   return new Promise((resolve, reject) => {
     connection.query(
-      'INSERT INTO songs (title, duration, releaseDate, bonus_track, artist_id, album_id) VALUES (?, ?, ?, ?, ?, ?)',
-      [title, duration, releaseDate, bonus_track, artist_id, album_id],
+      'INSERT INTO songs (title, duration, releaseDate, bonus_track) VALUES (?, ?, ?, ?)',
+      [title, duration, releaseDate, bonus_track],
       (err, results) => {
         if (err) {
           reject(err);
         } else {
+          console.log(results)
           resolve(results);
         }
       }
