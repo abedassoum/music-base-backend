@@ -48,7 +48,7 @@ export async function updateSong(req, res) {
 }
 
 export async function createSong(req, res) {
-  const { title, duration, releaseDate, bonus_track, artist_id, album_id } =
+  const { title, duration, releaseDate, bonus_track, artist_name, album_name } =
     req.body;
   try {
     const newSong = await createSong_db(
@@ -56,8 +56,8 @@ export async function createSong(req, res) {
       duration,
       releaseDate,
       bonus_track,
-      artist_id,
-      album_id
+      artist_name,
+      album_name
     );
     
     console.log(newSong);
