@@ -68,6 +68,7 @@ export async function readSongById_db(id) {
   }
 }
 
+
 export async function updateSong_db(
   id,
   title,
@@ -78,7 +79,6 @@ export async function updateSong_db(
   albums // array of albums names
 ) {
   const sql = `
-
     START TRANSACTION;
 
     UPDATE songs
@@ -103,20 +103,76 @@ export async function updateSong_db(
       duration,
       releaseDate,
       bonus_track,
-      id,
-      id,
-      id,
-      artists,
-      id,
-      albums,
-      id,
+      id, // Placeholder 5
+      id, // Placeholder 6
+      id, // Placeholder 7
+      id, // Placeholder 8
+      artists, // Placeholder 9
+      id, // Placeholder 10
+      albums, // Placeholder 11
+      id, // Placeholder 12
+      artists, // Placeholder 13
+      id, // Placeholder 14
+      albums, // Placeholder 15
     ]);
+    console.log(results);
     return results;
   } catch (error) {
     console.error('Error updating song:', error);
     throw error;
   }
 }
+
+
+// export async function updateSong_db(
+//   id,
+//   title,
+//   duration,
+//   releaseDate,
+//   bonus_track,
+//   artists, // array of artists names
+//   albums // array of albums names
+// ) {
+//   const sql = `
+
+//     START TRANSACTION;
+
+//     UPDATE songs
+//     SET title = ?, duration = ?, releaseDate = ?, bonus_track = ?
+//     WHERE id = ?;
+
+//     DELETE FROM song_to_artists WHERE song_id = ?;
+//     DELETE FROM song_to_albums WHERE song_id = ?;
+
+//     INSERT INTO song_to_artists (song_id, artist_id)
+//     SELECT ?, id FROM artists WHERE name IN (?);
+
+//     INSERT INTO song_to_albums (song_id, album_id)
+//     SELECT ?, id FROM albums WHERE title IN (?);
+
+//     COMMIT;
+//   `;
+
+//   try {
+//     const results = await query(sql, [
+//       title,
+//       duration,
+//       releaseDate,
+//       bonus_track,
+//       id,
+//       id,
+//       id,
+//       artists,
+//       id,
+//       albums,
+//       id,
+//     ]);
+//     return results;
+//   } catch (error) {
+//     console.error('Error updating song:', error);
+//     throw error;
+//   }
+// }
 
 export async function createSong_db(
   title,
