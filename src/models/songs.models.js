@@ -1,8 +1,8 @@
 import connection from '../db/database.js';
 
-export async function readAllSongs_db() {
+async function query(sql, params) {
   return new Promise((resolve, reject) => {
-    connection.query('SELECT * FROM songs', (err, results) => {
+    connection.query(sql, params, (err, results) => {
       if (err) {
         reject(err);
       } else {
@@ -12,135 +12,171 @@ export async function readAllSongs_db() {
   });
 }
 
-export function readSongById_db(id) {
-  return new Promise((resolve, reject) => {
-    connection.query(
-      'SELECT * FROM songs WHERE id = ?',
-      [id],
-      (err, results) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(results);
-        }
-      }
-    );
-  });
-}
-export function updateSong_db(title, duration, releaseDate, bonus_track, id) {
-  return new Promise((resolve, reject) => {
-    connection.query(
-      'UPDATE songs SET title = ?, duration = ?, releaseDate = ?, bonus_track = ? WHERE id = ?',
-      [title, duration, releaseDate, bonus_track, id],
-      (err, results) => {
-        if (err) {
-          reject(err);
-        } else {
-          console.log(results);
-          resolve(results);
-        }
-      }
-    );
-  });
+export async function readAllSongs_db() {
+  const sql = `
+    SELECT songs.*,
+      GROUP_CONCAT(DISTINCT artists.name) AS artists, 
+      GROUP_CONCAT(DISTINCT albums.title) AS albums
+    FROM songs
+    LEFT JOIN song_to_artists ON songs.id = song_to_artists.song_id
+    LEFT JOIN artists ON song_to_artists.artist_id = artists.id
+    LEFT JOIN song_to_albums ON songs.id = song_to_albums.song_id
+    LEFT JOIN albums ON song_to_albums.album_id = albums.id
+    GROUP BY songs.id
+  `;
+
+  try {
+    const results = await query(sql);
+    return results;
+  } catch (error) {
+    console.error('Error reading all songs:', error);
+    throw error;
+  }
 }
 
-export function createSong_db(
+export async function readSongById_db(id) {
+  const sql = `
+    SELECT 
+      songs.*,
+      GROUP_CONCAT(DISTINCT artists.name) AS artists, 
+      GROUP_CONCAT(DISTINCT albums.title) AS albums
+    FROM songs
+    LEFT JOIN song_to_artists ON songs.id = song_to_artists.song_id
+    LEFT JOIN artists ON song_to_artists.artist_id = artists.id
+    LEFT JOIN song_to_albums ON songs.id = song_to_albums.song_id
+    LEFT JOIN albums ON song_to_albums.album_id = albums.id
+    WHERE songs.id = ?
+    GROUP BY songs.id
+  `;
+
+  try {
+    const results = await query(sql, [id]);
+
+    if (results.length === 0) {
+      return null; // No song found
+    }
+
+    const song = results[0];
+
+    // Parse the artists and albumsinto arrays if needed
+    song.artists = song.artists ? song.artists.split(',') : [];
+    song.albums = song.albums ? song.albums.split(',') : [];
+    return song;
+  } catch (error) {
+    console.error('Error getting song:', error);
+    throw error; // Rethrow the error to be handled by the caller
+  }
+}
+
+export async function updateSong_db(
+  id,
   title,
   duration,
   releaseDate,
   bonus_track,
-  artists_names, // array of artists names
-  albums_names // array of albums names
+  artists, // array of artists names
+  albums // array of albums names
 ) {
-  return new Promise((resolve, reject) => {
-    connection.query(
-      'INSERT INTO songs (title, duration, releaseDate, bonus_track) VALUES (?, ?, ?, ?)',
-      [title, duration, releaseDate, bonus_track],
-      (err, results) => {
-        if (err) {
-          reject(err);
-        } else {
-          const songId = results.insertId;
-          const artistPromises = [];
-          const albumPromises = [];
+  const sql = `
 
-          // Create promises for artist and album queries
-          for (const artist_name of artists_names) {
-            artistPromises.push(
-              new Promise((resolve, reject) => {
-                connection.query(
-                  'SELECT id FROM artists WHERE name = ?',
-                  [artist_name],
-                  (err, artistsResults) => {
-                    if (err) {
-                      reject(err);
-                    } else {
-                      const artistId = artistsResults[0].id;
-                      connection.query(
-                        'INSERT INTO song_to_artists (song_id, artist_id) VALUES (?, ?)',
-                        [songId, artistId],
-                        (err, songArtistResults) => {
-                          if (err) {
-                            reject(err);
-                          } else {
-                            resolve(songArtistResults);
-                          }
-                        }
-                      );
-                    }
-                  }
-                );
-              })
-            );
-          }
+    START TRANSACTION;
 
-          for (const album_name of albums_names) {
-            albumPromises.push(
-              new Promise((resolve, reject) => {
-                connection.query(
-                  'SELECT id FROM albums WHERE title = ?',
-                  [album_name],
-                  (err, albumsResults) => {
-                    if (err) {
-                      reject(err);
-                    } else {
-                      const albumId = albumsResults[0].id;
-                      connection.query(
-                        'INSERT INTO song_to_albums (song_id, album_id) VALUES (?, ?)',
-                        [songId, albumId],
-                        (err, songAlbumResults) => {
-                          if (err) {
-                            reject(err);
-                          } else {
-                            resolve(songAlbumResults);
-                          }
-                        }
-                      );
-                    }
-                  }
-                );
-              })
-            );
-          }
+    UPDATE songs
+    SET title = ?, duration = ?, releaseDate = ?, bonus_track = ?
+    WHERE id = ?;
 
-          // Use Promise.all to wait for all queries to complete
-          Promise.all([...artistPromises, ...albumPromises])
-            .then(() => resolve(results))
-            .catch(err => reject(err));
-        }
-      }
-    );
-  });
+    DELETE FROM song_to_artists WHERE song_id = ?;
+    DELETE FROM song_to_albums WHERE song_id = ?;
+
+    INSERT INTO song_to_artists (song_id, artist_id)
+    SELECT ?, id FROM artists WHERE name IN (?);
+
+    INSERT INTO song_to_albums (song_id, album_id)
+    SELECT ?, id FROM albums WHERE title IN (?);
+
+    COMMIT;
+  `;
+
+  try {
+    const results = await query(sql, [
+      title,
+      duration,
+      releaseDate,
+      bonus_track,
+      id,
+      id,
+      id,
+      artists,
+      id,
+      albums,
+      id,
+    ]);
+    return results;
+  } catch (error) {
+    console.error('Error updating song:', error);
+    throw error;
+  }
 }
 
-export function deleteSong_db(id) {
-  return new Promise((resolve, reject) => {
-    connection.query('DELETE FROM songs WHERE id = ?', [id], (err, results) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(results);
-      }
-    });
-  });
+export async function createSong_db(
+  title,
+  duration,
+  releaseDate,
+  bonus_track,
+  artists, // array of artists names
+  albums // array of albums names
+) {
+  const sql = `
+    START TRANSACTION;
+    
+    INSERT INTO songs (title, duration, releaseDate, bonus_track)
+    VALUES (?, ?, ?, ?);
+
+    SET @songId = LAST_INSERT_ID();
+
+    INSERT INTO song_to_artists (song_id, artist_id)
+    SELECT @songId AS song_id, id FROM artists WHERE name IN (?);
+
+    INSERT INTO song_to_albums (song_id, album_id)
+    SELECT @songId AS song_id, id FROM albums WHERE title IN (?);
+
+    COMMIT;
+  `;
+
+  try {
+    const results = await query(sql, [
+      title,
+      duration,
+      releaseDate,
+      bonus_track,
+      artists,
+      albums,
+    ]);
+    return results;
+  } catch (error) {
+    console.error('Error creating song:', error);
+    throw error;
+  }
+}
+
+export async function deleteSong_db(id) {
+  const sql = `
+    START TRANSACTION;
+
+    DELETE FROM song_to_artists WHERE song_id = ?;
+    DELETE FROM song_to_albums WHERE song_id = ?;
+
+    DELETE FROM songs WHERE id = ?;
+
+
+    COMMIT;
+  `;
+
+  try {
+    const results = await query(sql, [id, id, id]);
+    return results;
+  } catch (error) {
+    console.error('Error deleting song:', error);
+    throw error;
+  }
 }

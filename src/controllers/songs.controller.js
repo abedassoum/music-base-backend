@@ -29,16 +29,18 @@ export async function readSongById(req, res) {
 
 export async function updateSong(req, res) {
   const id = req.params.id;
-  const { title, duration, releaseDate, bonus_track} =
+  const { title, duration, releaseDate, bonus_track, artists, albums} =
     req.body;
 
   try {
     const updatedSong = await updateSong_db(
+      id,
       title,
       duration,
       releaseDate,
-      bonus_track,   
-      id
+      bonus_track,
+      artists,
+      albums   
     );
     res.status(200).json(updatedSong);
   } catch (err) {
@@ -48,7 +50,7 @@ export async function updateSong(req, res) {
 }
 
 export async function createSong(req, res) {
-  const { title, duration, releaseDate, bonus_track, artist_names, album_names } =
+  const { title, duration, releaseDate, bonus_track, artists, albums } =
     req.body;
   try {
     const newSong = await createSong_db(
@@ -56,8 +58,8 @@ export async function createSong(req, res) {
       duration,
       releaseDate,
       bonus_track,
-      artist_names,
-      album_names
+      artists,
+      albums
     );
     
     console.log(newSong);
