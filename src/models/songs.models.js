@@ -49,8 +49,8 @@ export function createSong_db(
   duration,
   releaseDate,
   bonus_track,
-  artist_name,
-  album_name
+  artists_names, // array of artists names
+  albums_names // array of albums names
 ) {
   return new Promise((resolve, reject) => {
     connection.query(
@@ -60,63 +60,58 @@ export function createSong_db(
         if (err) {
           reject(err);
         } else {
-         const songId = results.insertId;
-
-         // find artist id from artist name in artist table
-          connection.query(
-            'SELECT id FROM artists WHERE name = ?',
-            [artist_name],
-            (err, artistResults) => {
-              if (err) {
-                reject(err);
-              } else {
-                console.log(artistResults);
-                const artistId = artistResults[0].id;
-                console.log(artistId);
-  
-                // find album id from album name in album table
-                connection.query(
-                  'SELECT id FROM albums WHERE title = ?',
-                  [album_name],
-                  (err, albumResults) => {
-                    if (err) {
-                      reject(err);
-                    } else {
-                      const albumId = albumResults[0].id;
-                      console.log(albumId);
-  
-                      // insert song id, artist id in song_to_artist table
-                      connection.query(
-                        'INSERT INTO song_to_artists (song_id, artist_id) VALUES (?, ?)',
-                        [songId, artistId],
-                        (err, results) => {
-                          if (err) {
-                            reject(err);
-                          } else {
-                            console.log(results);
-                            // insert song id, album id in song_to_album table
-                            connection.query(
-                              'INSERT INTO song_to_albums (song_id, album_id) VALUES (?, ?)',
-                              [songId, albumId],
-                              (err, results) => {
-                                if (err) {
-                                  reject(err);
-                                } else {
-                                  console.log(results);
-                                  resolve(results);
-                                }
-                              }
-                            );
-                          }
-                        }
-                      );
+          const songId = results.insertId;
+          // find artist id's from artist names in artists table
+          for (const artist_name of artists_names) {
+            connection.query(
+              'SELECT id FROM artists WHERE name = ?',
+              [artist_name],
+              (err, artistsResults) => {
+                if (err) {
+                  reject(err);
+                } else {
+                  const artistId = artistsResults[0].id;
+                  connection.query(
+                    'INSERT INTO song_to_artists (song_id, artist_id) VALUES (?, ?)',
+                    [songId, artistId],
+                    (err, results) => {
+                      if (err) {
+                        reject(err);
+                      } else {
+                        console.log(results);
+                      }
                     }
-                  }
-                );
+                  );
+                }
               }
-            }
-          );
-
+            );
+          }
+          // find album id's from album names in albums table
+          for (const album_name of albums_names) {
+            connection.query(
+              'SELECT id FROM albums WHERE title = ?',
+              [album_name],
+              (err, albumsResults) => {
+                if (err) {
+                  reject(err);
+                } else {
+                  const albumId = albumsResults[0].id;
+                  connection.query(
+                    'INSERT INTO song_to_albums (song_id, album_id) VALUES (?, ?)',
+                    [songId, albumId],
+                    (err, results) => {
+                      if (err) {
+                        reject(err);
+                      } else {
+                        console.log(results);
+                        resolve(results);
+                      }
+                    }
+                  );
+                }
+              }
+            );
+          }
         }
       }
     );
@@ -134,5 +129,3 @@ export function deleteSong_db(id) {
     });
   });
 }
-
-
