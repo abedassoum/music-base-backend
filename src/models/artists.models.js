@@ -26,16 +26,22 @@ export async function readAllArtists_db() {
     GROUP BY artists.id
   `;
 
-  const results = await query(sql);
+  try {
+    const results = await query(sql);
 
-  // Parse the genre_names and label_names into arrays if needed
-  const artistsWithGenresAndLabels = results.map(artist => ({
-    ...artist,
-    genres: artist.genres ? artist.genres.split(',') : [],
-    labels: artist.labels ? artist.labels.split(',') : [],
-  }));
+    // Parse the genre_names and label_names into arrays if needed
+    const artistsWithGenresAndLabels = results.map(artist => ({
+      ...artist,
+      genres: artist.genres ? artist.genres.split(',') : [],
+      labels: artist.labels ? artist.labels.split(',') : [],
+    }));
 
-  return artistsWithGenresAndLabels;
+    return artistsWithGenresAndLabels;
+  }
+  catch (error) {
+    console.error('Error getting artists:', error);
+    throw error; // Rethrow the error to be handled by the caller
+  }
 }
 
 export async function readArtistById_db(id) {
@@ -175,10 +181,10 @@ export async function deleteArtist_db(id) {
   const sql = `
     START TRANSACTION;
 
-    DELETE FROM artists WHERE id = ?;
-
     DELETE FROM artist_to_genre WHERE artist_id = ?;
     DELETE FROM artist_to_label WHERE artist_id = ?;
+
+    DELETE FROM artists WHERE id = ?;
 
     COMMIT;
   `;
