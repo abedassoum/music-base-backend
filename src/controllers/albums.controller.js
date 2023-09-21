@@ -6,26 +6,45 @@ import {
   updateAlbum_db,
 } from '../models/albums.models.js';
 
-export function readAllAlbums(req, res) {
-  const albums = readAllAlbums_db();
-  if (err) throw err;
-  res.status(200).json(albums);
+export async function readAllAlbums(req, res) {
+  try {
+    const albums = await readAllAlbums_db();
+    res.status(200).json(albums);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'An error occured while fetching songs' });
+  }
 }
 
-export function readAlbumById(req, res) {
+export async function readAlbumById(req, res) {
   const id = req.params.id;
-  const album = readAlbumById_db(id);
-  if (err) throw err;
-  res.status(200).json(album);
+  try {
+    const albums = await readAlbumById_db(id);
+    res.status(200).json(albums);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: 'An error occured while fetching album' });
+  }
 }
 
-export function updateAlbum(req, res) {
+export async function updateAlbum(req, res) {
   const id = req.params.id;
   const { name, year, image, artist, genres, labels } = req.body;
 
-  const album = updateAlbum_db(id, name, year, image, artist, genres, labels);
-  if (err) throw err;
-  res.status(200).json(album);
+  try {
+    const updatedAlbum = await updateAlbum_db(
+      name, 
+      year,
+      image,
+      artist,
+      genres,
+      labels,
+      id);
+      res.status(200).json(updatedAlbum)
+  } catch (err) {
+    console.error(err)
+    res.status(500).json({error: 'An error occured while updating album'});
+  }
 }
 
 export function createAlbum(req, res) {

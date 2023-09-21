@@ -1,16 +1,30 @@
 import connection from '../db/database.js';
 
-export function readAllAlbums_db() {
-  connection.query('SELECT * FROM albums', (err, results) => {
-    if (err) throw err;
-    return results;
+export async function readAllAlbums_db() {
+  return new Promise((resolve, reject) => {
+    connection.query('SELECT * FROM albums', (err, results) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(results);
+      }
+    });
   });
 }
 
 export function readAlbumById_db(id) {
-  connection.query('SELECT * FROM albums WHERE id = ?', [id], (err, results) => {
-    if (err) throw err;
-    return results;
+  return new Promise((resolve, reject) => {
+    connection.query(
+      'SELECT * FROM songs WHERE id = ?',
+      [id],
+      (err, results) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(results);
+        }
+      }
+    );
   });
 }
 
