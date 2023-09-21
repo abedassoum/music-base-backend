@@ -28,15 +28,20 @@ export function readAlbumById_db(id) {
   });
 }
 
-export function updateAlbum_db(id, name, year, image, artist, genres, labels) {
-  connection.query(
-    'UPDATE albums SET name = ?, year = ?, image = ?, artist = ?, genres = ?, labels = ? WHERE id = ?',
-    [name, year, image, artist, genres, labels, id],
-    (err, results) => {
-      if (err) throw err;
-      return results;
-    }
-  );
+export function updateAlbum_db(title, releaseDate, genre, id) {
+  return new Promise((resolve, reject) => {
+    connection.query(
+      'UPDATE albums SET title = ?, releaseDate = ?, genre = ? WHERE id = ?',
+      [title, releaseDate, genre, id],
+      (err, results) => {
+        if (err) {
+          reject(err);
+        } else {
+          console.log(results);
+          resolve(results)
+        }
+      })
+  })
   // make genre and label junction tables - then update them here
 }
 

@@ -23,27 +23,22 @@ export async function readAlbumById(req, res) {
     res.status(200).json(albums);
   } catch (err) {
     console.log(err);
-    res.status(500).json({ error: 'An error occured while fetching album' });
+    res.status(500).json({ error: 'An error occure while fetching album' });
   }
 }
 
 export async function updateAlbum(req, res) {
   const id = req.params.id;
-  const { name, year, image, artist, genres, labels } = req.body;
+  const { title, releaseDate, genre } = req.body;
 
   try {
     const updatedAlbum = await updateAlbum_db(
-      name, 
-      year,
-      image,
-      artist,
-      genres,
-      labels,
-      id);
-      res.status(200).json(updatedAlbum)
+      title, releaseDate, genre, id
+    );
+    res.status(200).json(updatedAlbum)
   } catch (err) {
-    console.error(err)
-    res.status(500).json({error: 'An error occured while updating album'});
+    console.log(err)
+    res.status(500).json({error: 'An error occured while updating album'})
   }
 }
 
