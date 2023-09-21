@@ -61,57 +61,72 @@ export function createSong_db(
           reject(err);
         } else {
           const songId = results.insertId;
-          // find artist id's from artist names in artists table
+          const artistPromises = [];
+          const albumPromises = [];
+
+          // Create promises for artist and album queries
           for (const artist_name of artists_names) {
-            connection.query(
-              'SELECT id FROM artists WHERE name = ?',
-              [artist_name],
-              (err, artistsResults) => {
-                if (err) {
-                  reject(err);
-                } else {
-                  const artistId = artistsResults[0].id;
-                  connection.query(
-                    'INSERT INTO song_to_artists (song_id, artist_id) VALUES (?, ?)',
-                    [songId, artistId],
-                    (err, results) => {
-                      if (err) {
-                        reject(err);
-                      } else {
-                        console.log(results);
-                      }
+            artistPromises.push(
+              new Promise((resolve, reject) => {
+                connection.query(
+                  'SELECT id FROM artists WHERE name = ?',
+                  [artist_name],
+                  (err, artistsResults) => {
+                    if (err) {
+                      reject(err);
+                    } else {
+                      const artistId = artistsResults[0].id;
+                      connection.query(
+                        'INSERT INTO song_to_artists (song_id, artist_id) VALUES (?, ?)',
+                        [songId, artistId],
+                        (err, songArtistResults) => {
+                          if (err) {
+                            reject(err);
+                          } else {
+                            resolve(songArtistResults);
+                          }
+                        }
+                      );
                     }
-                  );
-                }
-              }
+                  }
+                );
+              })
             );
           }
-          // find album id's from album names in albums table
+
           for (const album_name of albums_names) {
-            connection.query(
-              'SELECT id FROM albums WHERE title = ?',
-              [album_name],
-              (err, albumsResults) => {
-                if (err) {
-                  reject(err);
-                } else {
-                  const albumId = albumsResults[0].id;
-                  connection.query(
-                    'INSERT INTO song_to_albums (song_id, album_id) VALUES (?, ?)',
-                    [songId, albumId],
-                    (err, results) => {
-                      if (err) {
-                        reject(err);
-                      } else {
-                        console.log(results);
-                        resolve(results);
-                      }
+            albumPromises.push(
+              new Promise((resolve, reject) => {
+                connection.query(
+                  'SELECT id FROM albums WHERE title = ?',
+                  [album_name],
+                  (err, albumsResults) => {
+                    if (err) {
+                      reject(err);
+                    } else {
+                      const albumId = albumsResults[0].id;
+                      connection.query(
+                        'INSERT INTO song_to_albums (song_id, album_id) VALUES (?, ?)',
+                        [songId, albumId],
+                        (err, songAlbumResults) => {
+                          if (err) {
+                            reject(err);
+                          } else {
+                            resolve(songAlbumResults);
+                          }
+                        }
+                      );
                     }
-                  );
-                }
-              }
+                  }
+                );
+              })
             );
           }
+
+          // Use Promise.all to wait for all queries to complete
+          Promise.all([...artistPromises, ...albumPromises])
+            .then(() => resolve(results))
+            .catch(err => reject(err));
         }
       }
     );
