@@ -60,9 +60,9 @@ export function createSong_db(
         if (err) {
           reject(err);
         } else {
-         const songId = results.insertId;
+          const songId = results.insertId;
 
-         // find artist id from artist name in artist table
+          // find artist id from artist name in artist table
           connection.query(
             'SELECT id FROM artists WHERE name = ?',
             [artist_name],
@@ -73,7 +73,7 @@ export function createSong_db(
                 console.log(artistResults);
                 const artistId = artistResults[0].id;
                 console.log(artistId);
-  
+
                 // find album id from album name in album table
                 connection.query(
                   'SELECT id FROM albums WHERE title = ?',
@@ -84,7 +84,7 @@ export function createSong_db(
                     } else {
                       const albumId = albumResults[0].id;
                       console.log(albumId);
-  
+
                       // insert song id, artist id in song_to_artist table
                       connection.query(
                         'INSERT INTO song_to_artists (song_id, artist_id) VALUES (?, ?)',
@@ -116,7 +116,6 @@ export function createSong_db(
               }
             }
           );
-
         }
       }
     );
@@ -134,5 +133,3 @@ export function deleteSong_db(id) {
     });
   });
 }
-
-
