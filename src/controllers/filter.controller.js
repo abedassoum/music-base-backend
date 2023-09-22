@@ -1,8 +1,8 @@
 import {
   filterGenres_db,
   filterLabels_db,
-  getGenreNames,
-  getLabelNames,
+  getGenreNames_db,
+  getLabelNames_db,
 } from '../models/filter.models.js';
 
 export class filter {
@@ -30,7 +30,7 @@ export class filter {
 
 export async function getGenreNames(req, res) {
   try {
-    const results = await getGenreNames();
+    const results = await getGenreNames_db();
     res.status(200).json(results);
   } catch (err) {
     console.log(err);
@@ -39,7 +39,7 @@ export async function getGenreNames(req, res) {
 
 export async function getLabelNames(req, res) {
   try {
-    const results = await getLabelNames();
+    const results = await getLabelNames_db();
     res.status(200).json(results);
   } catch (err) {
     console.log(err);
