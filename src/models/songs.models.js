@@ -18,10 +18,10 @@ export async function readAllSongs_db() {
       GROUP_CONCAT(DISTINCT artists.name) AS artists, 
       GROUP_CONCAT(DISTINCT albums.title) AS albums
     FROM songs
-    LEFT JOIN song_to_artists ON songs.id = song_to_artists.song_id
-    LEFT JOIN artists ON song_to_artists.artist_id = artists.id
-    LEFT JOIN song_to_albums ON songs.id = song_to_albums.song_id
-    LEFT JOIN albums ON song_to_albums.album_id = albums.id
+    LEFT JOIN song_artists ON songs.id = song_artists.song_id
+    LEFT JOIN artists ON song_artists.artist_id = artists.id
+    LEFT JOIN song_albums ON songs.id = song_albums.song_id
+    LEFT JOIN albums ON song_albums.album_id = albums.id
     GROUP BY songs.id
   `;
 
@@ -41,10 +41,10 @@ export async function readSongById_db(id) {
       GROUP_CONCAT(DISTINCT artists.name) AS artists, 
       GROUP_CONCAT(DISTINCT albums.title) AS albums
     FROM songs
-    LEFT JOIN song_to_artists ON songs.id = song_to_artists.song_id
-    LEFT JOIN artists ON song_to_artists.artist_id = artists.id
-    LEFT JOIN song_to_albums ON songs.id = song_to_albums.song_id
-    LEFT JOIN albums ON song_to_albums.album_id = albums.id
+    LEFT JOIN song_artists ON songs.id = song_artists.song_id
+    LEFT JOIN artists ON song_artists.artist_id = artists.id
+    LEFT JOIN song_albums ON songs.id = song_albums.song_id
+    LEFT JOIN albums ON song_albums.album_id = albums.id
     WHERE songs.id = ?
     GROUP BY songs.id
   `;
@@ -84,13 +84,13 @@ export async function updateSong_db(
     SET title = ?, duration = ?, releaseDate = ?, bonus_track = ?
     WHERE id = ?;
 
-    DELETE FROM song_to_artists WHERE song_id = ?;
-    DELETE FROM song_to_albums WHERE song_id = ?;
+    DELETE FROM song_artists WHERE song_id = ?;
+    DELETE FROM song_albums WHERE song_id = ?;
 
-    INSERT INTO song_to_artists (song_id, artist_id)
+    INSERT INTO song_artists (song_id, artist_id)
     SELECT ?, id FROM artists WHERE name IN (?);
 
-    INSERT INTO song_to_albums (song_id, album_id)
+    INSERT INTO song_albums (song_id, album_id)
     SELECT ?, id FROM albums WHERE title IN (?);
 
     COMMIT;
@@ -133,10 +133,10 @@ export async function createSong_db(
 
     SET @songId = LAST_INSERT_ID();
 
-    INSERT INTO song_to_artists (song_id, artist_id)
+    INSERT INTO song_artists (song_id, artist_id)
     SELECT @songId AS song_id, id FROM artists WHERE name IN (?);
 
-    INSERT INTO song_to_albums (song_id, album_id)
+    INSERT INTO song_albums (song_id, album_id)
     SELECT @songId AS song_id, id FROM albums WHERE title IN (?);
 
     COMMIT;
@@ -162,8 +162,8 @@ export async function deleteSong_db(id) {
   const sql = `
     START TRANSACTION;
 
-    DELETE FROM song_to_artists WHERE song_id = ?;
-    DELETE FROM song_to_albums WHERE song_id = ?;
+    DELETE FROM song_artists WHERE song_id = ?;
+    DELETE FROM song_albums WHERE song_id = ?;
 
     DELETE FROM songs WHERE id = ?;
 
