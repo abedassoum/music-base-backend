@@ -2,6 +2,8 @@
 
 ![Project Logo](insert-your-backend-logo-url-here)
 
+- [Project website](https://musicbase-backend-madeinchina.azurewebsites.net/) (hosted on Azure)
+
 ## Table of Contents
 
 - [Introduction](#introduction)
@@ -23,7 +25,6 @@ The Music Artist Showcase Backend is the server-side component of the Music Arti
 ## Features
 
 - RESTful APIs for managing artists, albums, and songs.
-- Authentication and authorization system with JWT.
 - Database interactions with MySQL.
 - Seamless integration with the Music Artist Showcase frontend.
 
@@ -33,6 +34,8 @@ The Music Artist Showcase Backend is the server-side component of the Music Arti
 - **Express.js**: A minimal and flexible Node.js web application framework.
 - **MySQL**: A relational database management system for storing artist, album, and song data.
 - **Azure**: Cloud hosting platform used for deploying the backend of the application.
+
+## Running the project locally
 
 ## Getting Started
 
@@ -47,17 +50,35 @@ Before you begin, ensure you have the following software installed on your machi
 
 1. Clone the backend repository:
 
-   ```bash
-   git clone https://github.com/your-username/music-artist-showcase-backend.git
+    - **SSH**: `git clone git@github.com:abedassoum/music-base-backend.git`
+    - **HTTPS**: `git clone https://github.com/abedassoum/music-base-backend.git`
 
-    Navigate to the backend project directory:
+2. Install the project dependencies:
 
-    bash
+    Navigate to the project directory and run
+      ```
+      npm install
+      ```
 
-cd music-artist-showcase-backend
+3. Create a `.env` file in the project root directory and add the following environment variables:
 
-Install the backend dependencies:
+    ```
+    MYSQL_HOST: localhost
+    MYSQL_PORT: 3306
+    MYSQL_USER: root
+    MYSQL_PASSWORD: ****  // Replace **** with your MySQL root user password
+    MYSQL_DATABASE: example_db  // Replace example_db with the name of your MySQL database
+    PORT : 3000
+    ```
+4. Start the backend server:
+  
+      Navigate to the project directory and run
+      ```
+      npm start
+      ```
 
-bash
-
-npm install
+      #### Run development server with nodemon
+      ```
+      npm run dev
+      ```
+5. The backend server should now be running on `http://localhost:3000`.
