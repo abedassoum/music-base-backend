@@ -29,7 +29,7 @@ export async function readAllArtists_db() {
   try {
     const results = await query(sql);
 
-    // Parse the genre_names and label_names into arrays if needed
+    // Parse the genres and labels into arrays if needed
     const artistsWithGenresAndLabels = results.map(artist => ({
       ...artist,
       genres: artist.genres ? artist.genres.split(',') : [],
@@ -37,8 +37,7 @@ export async function readAllArtists_db() {
     }));
 
     return artistsWithGenresAndLabels;
-  }
-  catch (error) {
+  } catch (error) {
     console.error('Error getting artists:', error);
     throw error; // Rethrow the error to be handled by the caller
   }
@@ -80,12 +79,14 @@ export async function readArtistById_db(id) {
 }
 
 export async function updateArtist_db(
-  id,
+  artistId,
   name,
-  website,
-  image,
   birthdate,
   activeSince,
+  website,
+  image,
+  shortDescription,
+  favorite,
   genres,
   labels
 ) {
@@ -94,7 +95,7 @@ export async function updateArtist_db(
     START TRANSACTION;
 
     UPDATE artists 
-    SET name = ?, website = ?, image = ?, birthdate = ?, activeSince = ?
+    SET name = ?,birthdate  = ?,activeSince  = ?, website = ?, image = ?, shortDescription = ?, favorite = ?
     WHERE id = ?;
     
     DELETE FROM artist_to_genre WHERE artist_id = ?;
@@ -112,17 +113,19 @@ export async function updateArtist_db(
   try {
     const results = await query(sql, [
       name,
-      website,
-      image,
       birthdate,
       activeSince,
-      id,
-      id,
-      id,
+      website,
+      image,
+      shortDescription,
+      favorite,
+      artistId,
+      artistId,
+      artistId,
+      artistId,
       genres,
-      id,
+      artistId,
       labels,
-      id,
     ]);
 
     return results;
@@ -134,10 +137,12 @@ export async function updateArtist_db(
 
 export async function createArtist_db(
   name,
-  website,
-  image,
   birthdate,
   activeSince,
+  website,
+  image,
+  shortDescription,
+  favorite,
   genres,
   labels
 ) {
@@ -145,8 +150,8 @@ export async function createArtist_db(
 
     START TRANSACTION;
 
-    INSERT INTO artists (name, website, image, birthdate, activeSince)
-    VALUES (?, ?, ?, ?, ?);
+    INSERT INTO artists (name, birthdate , activeSince , website, image, shortDescription, favorite)
+    VALUES (?, ?, ?, ?, ?, ?, ?);
     
     SET @artistId = LAST_INSERT_ID();
     
@@ -162,10 +167,12 @@ export async function createArtist_db(
   try {
     const results = await query(sql, [
       name,
-      website,
-      image,
       birthdate,
       activeSince,
+      website,
+      image,
+      shortDescription,
+      favorite,
       genres,
       labels,
     ]);
@@ -197,4 +204,3 @@ export async function deleteArtist_db(id) {
     throw error;
   }
 }
-
