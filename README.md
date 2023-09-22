@@ -1,8 +1,9 @@
+## KEA - 2nd Semester Project
+
 # Music Artist Showcase Backend
 
-![Project Logo](insert-your-backend-logo-url-here)
-
-- [Project website](https://musicbase-backend-madeinchina.azurewebsites.net/) (hosted on Azure)
+## Project website 
+https://musicbase-backend-madeinchina.azurewebsites.net/ - (hosted on Azure)
 
 ## Table of Contents
 
