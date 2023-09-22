@@ -29,11 +29,24 @@ export async function readAlbumById(req, res) {
 
 export async function updateAlbum(req, res) {
   const id = req.params.id;
-  const { title, releaseDate, genre } = req.body;
+  const { 
+    title, 
+    releaseDate, 
+    artists, 
+    labels, 
+    genres, 
+    songs, 
+  } = req.body;
 
   try {
     const updatedAlbum = await updateAlbum_db(
-      title, releaseDate, genre, id
+      id,
+      title,
+      releaseDate,
+      artists,
+      labels,
+      genres,
+      songs
     );
     res.status(200).json(updatedAlbum)
   } catch (err) {

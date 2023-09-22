@@ -86,22 +86,63 @@ export async function readAlbumById_db(id) {
   }
 }
 
-export function updateAlbum_db(title, releaseDate, genre, id) {
-  return new Promise((resolve, reject) => {
-    connection.query(
-      'UPDATE albums SET title = ?, releaseDate = ?, genre = ? WHERE id = ?',
-      [title, releaseDate, genre, id],
-      (err, results) => {
-        if (err) {
-          reject(err);
-        } else {
-          console.log(results);
-          resolve(results);
-        }
-      }
-    );
-  });
-  // make genre and label junction tables - then update them here
+export async function updateAlbum_db(
+  albumId,
+  title, 
+  releaseDate, 
+  artists, 
+  labels, 
+  genres, 
+  songs,
+  ) {
+  const sql = `
+    START TRANSACTION;
+
+    UPDATE albums SET title = ?, releaseDate = ? WHERE id = ?;
+
+    DELETE FROM album_artist WHERE album_id = ?;
+    DELETE FROM album_label WHERE album_id = ?;
+    DELETE FROM album_genre WHERE album_id = ?;
+    DELETE FROM song_album WHERE album_id = ?;
+
+    INSERT INTO album_artist (album_id, artist_id)
+    SELECT ?, id FROM artists WHERE name IN (?);
+
+    INSERT INTO album_label (album_id, label_id)
+    SELECT ?, id FROM labels WHERE name IN (?);
+
+    INSERT INTO album_genre (album_id, genre_id)
+    SELECT ?, id FROM genres WHERE name IN (?);
+
+    INSERT INTO song_album (album_id, song_id)
+    SELECT ?, id FROM songs WHERE title IN (?);
+
+    COMMIT;
+  `;
+
+  try {
+    const results = await query(sql, [
+      title,
+      releaseDate,
+      albumId,
+      albumId,
+      albumId,
+      albumId,
+      albumId,
+      albumId,
+      artists,
+      albumId,
+      labels, 
+      albumId,
+      genres, 
+      albumId,
+      songs
+    ]);
+    return results;
+  } catch (error) {
+    console.error('Error updating album', error);
+    throw error;
+  }
 }
 
 export function createAlbum_db(
@@ -146,9 +187,24 @@ export function createAlbum_db(
   });
 }
 
-export function deleteAlbum_db(id) {
-  connection.query('DELETE FROM albums WHERE id = ?', [id], (err, results) => {
-    if (err) throw err;
+export async function deleteAlbum_db(id) {
+  const sql = `
+    START TRANSACTION;
+
+    DELETE FROM album_artist WHERE album_id = ?;
+    DELETE FROM album_label WHERE album_id = ?;
+    DELETE FROM album_genre WHERE album_id = ?;
+    DELETE FROM song_album WHERE album_id = ?;
+
+    DELETE FROM albums WHERE id = ?;
+
+    COMMIT;
+  `;
+  try {
+    const results = await query(sql, [id, id, id, id, id])
     return results;
-  });
+  } catch (error) {
+    console.error('Error deleting album', error);
+    throw error;
+  }
 }
