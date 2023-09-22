@@ -3,7 +3,7 @@ import {
   filterLabels_db,
   getGenreNames,
   getLabelNames,
-} from '../models/filter.models';
+} from '../models/filter.models.js';
 
 export class filter {
   static async filterGenres(req, res) {

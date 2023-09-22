@@ -1,4 +1,4 @@
-import connection from '../db/database';
+import connection from '../db/database.js';
 
 async function query(sql, params) {
   return new Promise((resolve, reject) => {

@@ -3,7 +3,7 @@ import {
   getGenreNames,
   getLabelNames,
   filter,
-} from '../controllers/filter.controller';
+} from '../controllers/filter.controller.js';
 
 export default Router()
   .get('/')
