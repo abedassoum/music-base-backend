@@ -22,7 +22,7 @@ export async function readAlbumById(req, res) {
     const albums = await readAlbumById_db(id);
     res.status(200).json(albums);
   } catch (err) {
-    console.log(err);
+    console.error(err);
     res.status(500).json({ error: 'An error occure while fetching album' });
   }
 }
@@ -37,22 +37,37 @@ export async function updateAlbum(req, res) {
     );
     res.status(200).json(updatedAlbum)
   } catch (err) {
-    console.log(err)
+    console.error(err)
     res.status(500).json({error: 'An error occured while updating album'})
   }
 }
 
-export function createAlbum(req, res) {
-  const { name, year, image, artist, genres, labels } = req.body;
-
-  const album = createAlbum_db(name, year, image, artist, genres, labels);
-  if (err) throw err;
-  res.status(200).json(album);
+export async function createAlbum(req, res) {
+  const { title, releaseDate, genres, artists, labels, songs } = req.body;
+  try {
+    const newAlbum = await createAlbum_db(
+      title,
+      releaseDate,
+      genres,
+      artists, 
+      labels,
+      songs
+    );
+    console.log(newAlbum);
+    res.status(200).json(newAlbum)
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({error: 'Failed to create new album'})
+  }
 }
 
 export function deleteAlbum(req, res) {
   const id = req.params.id;
-  const album = deleteAlbum_db(id);
-  if (err) throw err;
-  res.status(200).json(album);
+  try {
+    deleteAlbum_db(id);
+    res.status(200).json({message: 'Album deleted succesfully'})
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({error: 'An error occured while deleting album'})
+  }
 }

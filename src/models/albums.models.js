@@ -38,24 +38,54 @@ export function updateAlbum_db(title, releaseDate, genre, id) {
           reject(err);
         } else {
           console.log(results);
-          resolve(results)
+          resolve(results);
         }
-      })
-  })
+      }
+    );
+  });
   // make genre and label junction tables - then update them here
 }
 
-export function createAlbum_db(name, year, image, artist, genres, labels) {
-  connection.query(
-    'INSERT INTO albums (name, year, image, artist, genres, labels) VALUES (?, ?, ?, ?, ?, ?)',
-    [name, year, image, artist, genres, labels],
-    (err, results) => {
-      if (err) throw err;
-      return results;
-    }
-  );
+export function createAlbum_db(
+  title,
+  releaseDate,
+  genres,
+  artists,
+  labels,
+  songs
+) {
+  return new Promise((resolve, reject) => {
+    const query = `
+      START TRANSACTION;
+      
+      INSERT INTO albums (title, releaseDate) VALUES (?, ?);
+      SET @albumId = LAST_INSERT_ID();
 
-  // make genre and label junction tables - then update them here
+      INSERT INTO album_artist (album_id, artist_id)
+      SELECT @albumId, id FROM artists WHERE name IN (?);
+      
+      INSERT INTO album_label (album_id, label_id)
+      SELECT @albumId, id FROM labels WHERE name IN (?);
+      
+      INSERT INTO album_genre (album_id, genre_id)
+      SELECT @albumId, id FROM genres WHERE name IN (?);
+      
+      INSERT INTO song_album (album_id, song_id)
+      SELECT @albumId, id FROM songs WHERE title IN (?);
+      
+      COMMIT;
+    `;
+
+    const values = [title, releaseDate, artists, labels, genres, songs];
+
+    connection.query(query, values, (err, results) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(results);
+      }
+    });
+  });
 }
 
 export function deleteAlbum_db(id) {
