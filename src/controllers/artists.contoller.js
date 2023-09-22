@@ -31,17 +31,28 @@ export async function readArtistById(req, res) {
 
 export async function updateArtist(req, res) {
   const id = req.params.id;
-  const { name, website, image, birthdate, activeSince, genres, labels } =
-    req.body;
+  const {
+    name,
+    birthdate,
+    activeSince,
+    website,
+    image,
+    shortDescription,
+    favorite,
+    genres,
+    labels,
+  } = req.body;
 
   try {
     const artist = await updateArtist_db(
       id,
       name,
-      website,
-      image,
       birthdate,
       activeSince,
+      website,
+      image,
+      shortDescription,
+      favorite,
       genres,
       labels
     );
@@ -53,16 +64,27 @@ export async function updateArtist(req, res) {
 }
 
 export async function createArtist(req, res) {
-  const { name, website, image, birthdate, activeSince, genres, labels } =
-    req.body;
+  const {
+    name,
+    birthdate,
+    activeSince,
+    website,
+    image,
+    shortDescription,
+    favorite,
+    genres,
+    labels,
+  } = req.body;
 
   try {
     const artist = await createArtist_db(
       name,
-      website,
-      image,
       birthdate,
       activeSince,
+      website,
+      image,
+      shortDescription,
+      favorite,
       genres,
       labels
     );
