@@ -19,10 +19,10 @@ export async function readAllArtists_db() {
       GROUP_CONCAT(DISTINCT genres.name) AS genres,
       GROUP_CONCAT(DISTINCT labels.name) AS labels
     FROM artists
-    LEFT JOIN artist_to_genre ON artists.id = artist_to_genre.artist_id
-    LEFT JOIN genres ON artist_to_genre.genre_id = genres.id
-    LEFT JOIN artist_to_label ON artists.id = artist_to_label.artist_id
-    LEFT JOIN labels ON artist_to_label.label_id = labels.id
+    LEFT JOIN artist_genre ON artists.id = artist_genre.artist_id
+    LEFT JOIN genres ON artist_genre.genre_id = genres.id
+    LEFT JOIN artist_label ON artists.id = artist_label.artist_id
+    LEFT JOIN labels ON artist_label.label_id = labels.id
     GROUP BY artists.id
   `;
 
@@ -50,10 +50,10 @@ export async function readArtistById_db(id) {
       GROUP_CONCAT(DISTINCT genres.name) AS genres,
       GROUP_CONCAT(DISTINCT labels.name) AS labels
     FROM artists
-    LEFT JOIN artist_to_genre ON artists.id = artist_to_genre.artist_id
-    LEFT JOIN genres ON artist_to_genre.genre_id = genres.id
-    LEFT JOIN artist_to_label ON artists.id = artist_to_label.artist_id
-    LEFT JOIN labels ON artist_to_label.label_id = labels.id
+    LEFT JOIN artist_genre ON artists.id = artist_genre.artist_id
+    LEFT JOIN genres ON artist_genre.genre_id = genres.id
+    LEFT JOIN artist_label ON artists.id = artist_label.artist_id
+    LEFT JOIN labels ON artist_label.label_id = labels.id
     WHERE artists.id = ?
     GROUP BY artists.id
   `;
@@ -98,13 +98,13 @@ export async function updateArtist_db(
     SET name = ?,birthdate  = ?,activeSince  = ?, website = ?, image = ?, shortDescription = ?, favorite = ?
     WHERE id = ?;
     
-    DELETE FROM artist_to_genre WHERE artist_id = ?;
-    DELETE FROM artist_to_label WHERE artist_id = ?;
+    DELETE FROM artist_genre WHERE artist_id = ?;
+    DELETE FROM artist_label WHERE artist_id = ?;
     
-    INSERT INTO artist_to_genre (artist_id, genre_id)
+    INSERT INTO artist_genre (artist_id, genre_id)
     SELECT ?, id FROM genres WHERE name IN (?);
     
-    INSERT INTO artist_to_label (artist_id, label_id)
+    INSERT INTO artist_label (artist_id, label_id)
     SELECT ?, id FROM labels WHERE name IN (?);
 
     COMMIT;
@@ -188,8 +188,8 @@ export async function deleteArtist_db(id) {
   const sql = `
     START TRANSACTION;
 
-    DELETE FROM artist_to_genre WHERE artist_id = ?;
-    DELETE FROM artist_to_label WHERE artist_id = ?;
+    DELETE FROM artist_genre WHERE artist_id = ?;
+    DELETE FROM artist_label WHERE artist_id = ?;
 
     DELETE FROM artists WHERE id = ?;
 
