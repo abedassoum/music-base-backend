@@ -175,8 +175,7 @@ export async function createArtist_db(
   labels, // Array of labels ["XL recordings", "Def Jam"]
   albums, // Array of albums ["The Eminem Show", "The Marshall Mathers LP"]
   songs // Array of songs ["Lose Yourself", "Stan"]
-  ) 
-{
+) {
   const sql = ` 
 
     START TRANSACTION;
