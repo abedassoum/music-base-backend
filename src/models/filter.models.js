@@ -30,7 +30,7 @@ export async function filterLabels_db(table) {
 }
 
 export async function getGenreNames_db () {
-  const sql = `SELECT name FROM Genres`;
+  const sql = `SELECT name FROM genres`;
   try {
     const results = await query(sql);
     return results;
@@ -40,7 +40,7 @@ export async function getGenreNames_db () {
 }
 
 export async function getLabelNames_db () {
-  const sql = `SELECT name FROM Labels`;
+  const sql = `SELECT name FROM labels`;
   try {
     const results = await query(sql);
     return results;
