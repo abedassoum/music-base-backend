@@ -16,9 +16,9 @@ export async function readAllAlbums_db() {
   const sql = `
   SELECT albums.*,
     GROUP_CONCAT(DISTINCT artists.name) AS artists,
-      GROUP_CONCAT(DISTINCT labels.name) AS labels,
-        GROUP_CONCAT(DISTINCT genres.name) AS genres,
-          GROUP_CONCAT(DISTINCT songs.title) AS songs
+    GROUP_CONCAT(DISTINCT labels.name) AS labels,
+    GROUP_CONCAT(DISTINCT genres.name) AS genres,
+    GROUP_CONCAT(DISTINCT songs.title) AS songs
   FROM albums
   LEFT JOIN album_artist ON albums.id = album_artist.album_id
   LEFT JOIN artists ON album_artist.artist_id = artists.id
@@ -47,9 +47,9 @@ export async function readAlbumById_db(id) {
   const sql = `
   SELECT albums.*,
     GROUP_CONCAT(DISTINCT artists.name) AS artists,
-      GROUP_CONCAT(DISTINCT labels.name) AS labels,
-        GROUP_CONCAT(DISTINCT genres.name) AS genres,
-          GROUP_CONCAT(DISTINCT songs.title) AS songs
+    GROUP_CONCAT(DISTINCT labels.name) AS labels,
+    GROUP_CONCAT(DISTINCT genres.name) AS genres,
+    GROUP_CONCAT(DISTINCT songs.title) AS songs
   FROM albums
   LEFT JOIN album_artist ON albums.id = album_artist.album_id
   LEFT JOIN artists ON album_artist.artist_id = artists.id
@@ -145,7 +145,7 @@ export async function updateAlbum_db(
   }
 }
 
-export function createAlbum_db(
+export async function createAlbum_db(
   title,
   releaseDate,
   genres,
@@ -153,38 +153,36 @@ export function createAlbum_db(
   labels,
   songs
 ) {
-  return new Promise((resolve, reject) => {
-    const query = `
-      START TRANSACTION;
+  const sql = `      
+  START TRANSACTION;
       
-      INSERT INTO albums (title, releaseDate) VALUES (?, ?);
-      SET @albumId = LAST_INSERT_ID();
+  INSERT INTO albums (title, releaseDate) VALUES (?, ?);
+  SET @albumId = LAST_INSERT_ID();
 
-      INSERT INTO album_artist (album_id, artist_id)
-      SELECT @albumId, id FROM artists WHERE name IN (?);
-      
-      INSERT INTO album_label (album_id, label_id)
-      SELECT @albumId, id FROM labels WHERE name IN (?);
-      
-      INSERT INTO album_genre (album_id, genre_id)
-      SELECT @albumId, id FROM genres WHERE name IN (?);
-      
-      INSERT INTO song_album (album_id, song_id)
-      SELECT @albumId, id FROM songs WHERE title IN (?);
-      
-      COMMIT;
-    `;
+  INSERT INTO album_artist (album_id, artist_id)
+  SELECT @albumId, id FROM artists WHERE name IN (?);
+  
+  INSERT INTO album_label (album_id, label_id)
+  SELECT @albumId, id FROM labels WHERE name IN (?);
+  
+  INSERT INTO album_genre (album_id, genre_id)
+  SELECT @albumId, id FROM genres WHERE name IN (?);
+  
+  INSERT INTO song_album (album_id, song_id)
+  SELECT @albumId, id FROM songs WHERE title IN (?);
+  
+  COMMIT;
+  `;
 
-    const values = [title, releaseDate, artists, labels, genres, songs];
+  const values = [title, releaseDate, artists, labels, genres, songs];
 
-    connection.query(query, values, (err, results) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(results);
-      }
-    });
-  });
+  try {
+    const results = await query(sql, values);
+    return results;
+  } catch {
+    console.error('Error creating album', error);
+    throw error;
+  }
 }
 
 export async function deleteAlbum_db(id) {
