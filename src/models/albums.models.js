@@ -4,12 +4,12 @@ async function query(sql, params) {
   return new Promise((resolve, reject) => {
     connection.query(sql, params, (err, results) => {
       if (err) {
-        reject(err)
+        reject(err);
       } else {
         resolve(results);
       }
-    })
-  })
+    });
+  });
 }
 
 export async function readAllAlbums_db() {
@@ -73,7 +73,7 @@ export async function readAlbumById_db(id) {
       return null;
     }
 
-    const album = results[0]
+    const album = results[0];
 
     album.artists = album.artists ? album.artists.split(',') : [];
     album.labels = album.labels ? album.labels.split(',') : [];
@@ -88,13 +88,13 @@ export async function readAlbumById_db(id) {
 
 export async function updateAlbum_db(
   albumId,
-  title, 
-  releaseDate, 
-  artists, 
-  labels, 
-  genres, 
-  songs,
-  ) {
+  title,
+  releaseDate,
+  artists,
+  labels,
+  genres,
+  songs
+) {
   const sql = `
     START TRANSACTION;
 
@@ -132,11 +132,11 @@ export async function updateAlbum_db(
       albumId,
       artists,
       albumId,
-      labels, 
+      labels,
       albumId,
-      genres, 
+      genres,
       albumId,
-      songs
+      songs,
     ]);
     return results;
   } catch (error) {
@@ -201,7 +201,7 @@ export async function deleteAlbum_db(id) {
     COMMIT;
   `;
   try {
-    const results = await query(sql, [id, id, id, id, id])
+    const results = await query(sql, [id, id, id, id, id]);
     return results;
   } catch (error) {
     console.error('Error deleting album', error);
