@@ -17,12 +17,18 @@ export async function readAllArtists_db() {
     SELECT 
       artists.*,
       GROUP_CONCAT(DISTINCT genres.name) AS genres,
-      GROUP_CONCAT(DISTINCT labels.name) AS labels
+      GROUP_CONCAT(DISTINCT labels.name) AS labels,
+      GROUP_CONCAT(DISTINCT albums.title) AS albums,
+      GROUP_CONCAT(DISTINCT songs.title) AS songs
     FROM artists
     LEFT JOIN artist_genre ON artists.id = artist_genre.artist_id
     LEFT JOIN genres ON artist_genre.genre_id = genres.id
     LEFT JOIN artist_label ON artists.id = artist_label.artist_id
     LEFT JOIN labels ON artist_label.label_id = labels.id
+    LEFT JOIN album_artist ON artists.id = album_artist.artist_id
+    LEFT JOIN albums ON album_artist.album_id = albums.id
+    LEFT JOIN song_artist ON artists.id = song_artist.artist_id
+    LEFT JOIN songs ON song_artist.song_id = songs.id
     GROUP BY artists.id
   `;
 
@@ -34,6 +40,8 @@ export async function readAllArtists_db() {
       ...artist,
       genres: artist.genres ? artist.genres.split(',') : [],
       labels: artist.labels ? artist.labels.split(',') : [],
+      albums: artist.albums ? artist.albums.split(',') : [],
+      songs: artist.songs ? artist.songs.split(',') : [],
     }));
 
     return artistsWithGenresAndLabels;
@@ -48,12 +56,18 @@ export async function readArtistById_db(id) {
     SELECT 
       artists.*,
       GROUP_CONCAT(DISTINCT genres.name) AS genres,
-      GROUP_CONCAT(DISTINCT labels.name) AS labels
+      GROUP_CONCAT(DISTINCT labels.name) AS labels,
+      GROUP_CONCAT(DISTINCT albums.title) AS albums,
+      GROUP_CONCAT(DISTINCT songs.title) AS songs
     FROM artists
     LEFT JOIN artist_genre ON artists.id = artist_genre.artist_id
     LEFT JOIN genres ON artist_genre.genre_id = genres.id
     LEFT JOIN artist_label ON artists.id = artist_label.artist_id
     LEFT JOIN labels ON artist_label.label_id = labels.id
+    LEFT JOIN album_artist ON artists.id = album_artist.artist_id
+    LEFT JOIN albums ON album_artist.album_id = albums.id
+    LEFT JOIN song_artist ON artists.id = song_artist.artist_id
+    LEFT JOIN songs ON song_artist.song_id = songs.id
     WHERE artists.id = ?
     GROUP BY artists.id
   `;
@@ -88,7 +102,9 @@ export async function updateArtist_db(
   shortDescription,
   favorite,
   genres, // Array of genres [ "Rap", "Rock", etc...]
-  labels // Array of labels ["XL recordings", "Def Jam", etc...]
+  labels, // Array of labels ["XL recordings", "Def Jam", etc...]
+  albums, // Array of albums ["The Eminem Show", "The Marshall Mathers LP", etc...]
+  songs // Array of songs ["Lose Yourself", "Stan", etc...]
 ) {
   const sql = `
 
@@ -100,12 +116,20 @@ export async function updateArtist_db(
     
     DELETE FROM artist_genre WHERE artist_id = ?;
     DELETE FROM artist_label WHERE artist_id = ?;
+    DELETE FROM album_artist WHERE artist_id = ?;
+    DELETE FROM song_artist WHERE artist_id = ?;
     
     INSERT INTO artist_genre (artist_id, genre_id)
     SELECT ?, id FROM genres WHERE name IN (?);
     
     INSERT INTO artist_label (artist_id, label_id)
     SELECT ?, id FROM labels WHERE name IN (?);
+
+    INSERT INTO album_artist (album_id, artist_id)
+    SELECT id, ? FROM albums WHERE title IN (?);
+
+    INSERT INTO song_artist (song_id, artist_id)
+    SELECT id, ? FROM songs WHERE title IN (?);
 
     COMMIT;
   `;
@@ -126,6 +150,10 @@ export async function updateArtist_db(
       genres,
       artistId,
       labels,
+      artistId,
+      albums,
+      artistId,
+      songs,
     ]);
 
     return results;
@@ -144,8 +172,11 @@ export async function createArtist_db(
   shortDescription,
   favorite,
   genres, // Array of genres [ "Rap", "Rock"]
-  labels // Array of labels ["XL recordings", "Def Jam"]
-) {
+  labels, // Array of labels ["XL recordings", "Def Jam"]
+  albums, // Array of albums ["The Eminem Show", "The Marshall Mathers LP"]
+  songs // Array of songs ["Lose Yourself", "Stan"]
+  ) 
+{
   const sql = ` 
 
     START TRANSACTION;
@@ -155,11 +186,17 @@ export async function createArtist_db(
     
     SET @artistId = LAST_INSERT_ID();
     
-    INSERT INTO artist_to_genre (artist_id, genre_id)
+    INSERT INTO artist_genre (artist_id, genre_id)
     SELECT @artistId AS artist_id, id FROM genres WHERE name IN (?);
     
-    INSERT INTO artist_to_label (artist_id, label_id)
+    INSERT INTO artist_label (artist_id, label_id)
     SELECT @artistId AS artist_id, id FROM labels WHERE name IN (?);
+
+    INSERT INTO album_artist (album_id, artist_id)
+    SELECT id, @artistId FROM albums WHERE title IN (?);
+
+    INSERT INTO song_artist (song_id, artist_id)
+    SELECT id, @artistId FROM songs WHERE title IN (?);
 
     COMMIT;
   `;
@@ -190,6 +227,8 @@ export async function deleteArtist_db(id) {
 
     DELETE FROM artist_genre WHERE artist_id = ?;
     DELETE FROM artist_label WHERE artist_id = ?;
+    DELETE FROM album_artist WHERE artist_id = ?;
+    DELETE FROM song_artist WHERE artist_id = ?;
 
     DELETE FROM artists WHERE id = ?;
 

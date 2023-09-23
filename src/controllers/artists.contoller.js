@@ -41,6 +41,8 @@ export async function updateArtist(req, res) {
     favorite,
     genres,
     labels,
+    albums,
+    songs,
   } = req.body;
 
   try {
@@ -54,7 +56,9 @@ export async function updateArtist(req, res) {
       shortDescription,
       favorite,
       genres,
-      labels
+      labels,
+      albums,
+      songs
     );
     res.status(200).json(artist);
   } catch (err) {
@@ -74,6 +78,8 @@ export async function createArtist(req, res) {
     favorite,
     genres,
     labels,
+    albums,
+    songs,
   } = req.body;
 
   try {
@@ -86,7 +92,9 @@ export async function createArtist(req, res) {
       shortDescription,
       favorite,
       genres,
-      labels
+      labels,
+      albums,
+      songs
     );
     res.status(200).json(artist);
   } catch (err) {
