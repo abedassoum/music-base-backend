@@ -16,17 +16,32 @@ export async function readAllSongs_db() {
   const sql = `
     SELECT songs.*,
       GROUP_CONCAT(DISTINCT artists.name) AS artists, 
-      GROUP_CONCAT(DISTINCT albums.title) AS albums
+      GROUP_CONCAT(DISTINCT albums.title) AS albums,
+      GROUP_CONCAT(DISTINCT genres.name) AS genres,
+      GROUP_CONCAT(DISTINCT labels.name) AS labels
     FROM songs
     LEFT JOIN song_artists ON songs.id = song_artists.song_id
     LEFT JOIN artists ON song_artists.artist_id = artists.id
     LEFT JOIN song_albums ON songs.id = song_albums.song_id
     LEFT JOIN albums ON song_albums.album_id = albums.id
+    LEFT JOIN song_genre ON songs.id = song_genre.song_id
+    LEFT JOIN genres ON song_genre.genre_id = genres.id
+    LEFT JOIN song_label ON songs.id = song_label.song_id
+    LEFT JOIN labels ON song_label.label_id = labels.id
     GROUP BY songs.id
   `;
 
   try {
     const results = await query(sql);
+
+    // Parse the genres and labels into arrays if needed
+    const songs = results.map(song => ({
+      ...song,
+      genres: song.genres ? song.genres.split(',') : [],
+      labels: song.labels ? song.labels.split(',') : [],
+      albums: song.albums ? song.albums.split(',') : [],
+      artists: song.artists ? song.artists.split(',') : [],
+    }));
     return results;
   } catch (error) {
     console.error('Error reading all songs:', error);
@@ -39,12 +54,18 @@ export async function readSongById_db(id) {
     SELECT 
       songs.*,
       GROUP_CONCAT(DISTINCT artists.name) AS artists, 
-      GROUP_CONCAT(DISTINCT albums.title) AS albums
+      GROUP_CONCAT(DISTINCT albums.title) AS albums,
+      GROUP_CONCAT(DISTINCT genres.name) AS genres,
+      GROUP_CONCAT(DISTINCT labels.name) AS labels
     FROM songs
     LEFT JOIN song_artists ON songs.id = song_artists.song_id
     LEFT JOIN artists ON song_artists.artist_id = artists.id
     LEFT JOIN song_albums ON songs.id = song_albums.song_id
     LEFT JOIN albums ON song_albums.album_id = albums.id
+    LEFT JOIN song_genre ON songs.id = song_genre.song_id
+    LEFT JOIN genres ON song_genre.genre_id = genres.id
+    LEFT JOIN song_label ON songs.id = song_label.song_id
+    LEFT JOIN labels ON song_label.label_id = labels.id
     WHERE songs.id = ?
     GROUP BY songs.id
   `;
@@ -61,6 +82,8 @@ export async function readSongById_db(id) {
     // Parse the artists and albumsinto arrays if needed
     song.artists = song.artists ? song.artists.split(',') : [];
     song.albums = song.albums ? song.albums.split(',') : [];
+    song.genres = song.genres ? song.genres.split(',') : [];
+    song.labels = song.labels ? song.labels.split(',') : [];
     return song;
   } catch (error) {
     console.error('Error getting song:', error);
@@ -75,7 +98,9 @@ export async function updateSong_db(
   releaseDate,
   bonus_track,
   artists, // array of artists names
-  albums // array of albums names
+  albums, // array of albums names
+  genres,
+  labels
 ) {
   const sql = `
     START TRANSACTION;
@@ -86,12 +111,20 @@ export async function updateSong_db(
 
     DELETE FROM song_artists WHERE song_id = ?;
     DELETE FROM song_albums WHERE song_id = ?;
+    DELETE FROM song_genre WHERE song_id = ?;
+    DELETE FROM song_label WHERE song_id = ?;
 
     INSERT INTO song_artists (song_id, artist_id)
     SELECT ?, id FROM artists WHERE name IN (?);
 
     INSERT INTO song_albums (song_id, album_id)
     SELECT ?, id FROM albums WHERE title IN (?);
+
+    INSERT INTO song_genre (song_id, genre_id)
+    SELECT ?, id FROM genres WHERE name IN (?);
+
+    INSERT INTO song_label (song_id, label_id)
+    SELECT ?, id FROM labels WHERE name IN (?);
 
     COMMIT;
   `;
@@ -109,6 +142,10 @@ export async function updateSong_db(
       artists,
       songId,
       albums,
+      songId,
+      genres,
+      songId,
+      labels,
     ]);
     return results;
   } catch (error) {
@@ -123,7 +160,9 @@ export async function createSong_db(
   releaseDate,
   bonus_track,
   artists, // array of artists names
-  albums // array of albums names
+  albums, // array of albums names
+  genres,
+  labels
 ) {
   const sql = `
     START TRANSACTION;
@@ -139,6 +178,12 @@ export async function createSong_db(
     INSERT INTO song_albums (song_id, album_id)
     SELECT @songId AS song_id, id FROM albums WHERE title IN (?);
 
+    INSERT INTO song_genre (song_id, genre_id)
+    SELECT @songId AS song_id, id FROM genres WHERE name IN (?);
+
+    INSERT INTO song_label (song_id, label_id)
+    SELECT @songId AS song_id, id FROM labels WHERE name IN (?);
+
     COMMIT;
   `;
 
@@ -150,6 +195,8 @@ export async function createSong_db(
       bonus_track,
       artists,
       albums,
+      genres,
+      labels,
     ]);
     return results;
   } catch (error) {
@@ -164,6 +211,8 @@ export async function deleteSong_db(id) {
 
     DELETE FROM song_artists WHERE song_id = ?;
     DELETE FROM song_albums WHERE song_id = ?;
+    DELETE FROM song_genre WHERE song_id = ?;
+    DELETE FROM song_label WHERE song_id = ?;
 
     DELETE FROM songs WHERE id = ?;
 

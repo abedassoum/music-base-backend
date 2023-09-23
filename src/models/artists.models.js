@@ -36,7 +36,7 @@ export async function readAllArtists_db() {
     const results = await query(sql);
 
     // Parse the genres and labels into arrays if needed
-    const artistsWithGenresAndLabels = results.map(artist => ({
+    const artists = results.map(artist => ({
       ...artist,
       genres: artist.genres ? artist.genres.split(',') : [],
       labels: artist.labels ? artist.labels.split(',') : [],
@@ -44,7 +44,7 @@ export async function readAllArtists_db() {
       songs: artist.songs ? artist.songs.split(',') : [],
     }));
 
-    return artistsWithGenresAndLabels;
+    return artists;
   } catch (error) {
     console.error('Error getting artists:', error);
     throw error; // Rethrow the error to be handled by the caller
