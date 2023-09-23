@@ -20,10 +20,10 @@ export async function readAllSongs_db() {
       GROUP_CONCAT(DISTINCT genres.name) AS genres,
       GROUP_CONCAT(DISTINCT labels.name) AS labels
     FROM songs
-    LEFT JOIN song_artists ON songs.id = song_artists.song_id
-    LEFT JOIN artists ON song_artists.artist_id = artists.id
-    LEFT JOIN song_albums ON songs.id = song_albums.song_id
-    LEFT JOIN albums ON song_albums.album_id = albums.id
+    LEFT JOIN song_artist ON songs.id = song_artist.song_id
+    LEFT JOIN artists ON song_artist.artist_id = artists.id
+    LEFT JOIN song_album ON songs.id = song_album.song_id
+    LEFT JOIN albums ON song_album.album_id = albums.id
     LEFT JOIN song_genre ON songs.id = song_genre.song_id
     LEFT JOIN genres ON song_genre.genre_id = genres.id
     LEFT JOIN song_label ON songs.id = song_label.song_id
@@ -58,10 +58,10 @@ export async function readSongById_db(id) {
       GROUP_CONCAT(DISTINCT genres.name) AS genres,
       GROUP_CONCAT(DISTINCT labels.name) AS labels
     FROM songs
-    LEFT JOIN song_artists ON songs.id = song_artists.song_id
-    LEFT JOIN artists ON song_artists.artist_id = artists.id
-    LEFT JOIN song_albums ON songs.id = song_albums.song_id
-    LEFT JOIN albums ON song_albums.album_id = albums.id
+    LEFT JOIN song_artist ON songs.id = song_artist.song_id
+    LEFT JOIN artists ON song_artist.artist_id = artists.id
+    LEFT JOIN song_album ON songs.id = song_album.song_id
+    LEFT JOIN albums ON song_album.album_id = albums.id
     LEFT JOIN song_genre ON songs.id = song_genre.song_id
     LEFT JOIN genres ON song_genre.genre_id = genres.id
     LEFT JOIN song_label ON songs.id = song_label.song_id
@@ -109,15 +109,15 @@ export async function updateSong_db(
     SET title = ?, duration = ?, releaseDate = ?, bonus_track = ?
     WHERE id = ?;
 
-    DELETE FROM song_artists WHERE song_id = ?;
-    DELETE FROM song_albums WHERE song_id = ?;
+    DELETE FROM song_artist WHERE song_id = ?;
+    DELETE FROM song_album WHERE song_id = ?;
     DELETE FROM song_genre WHERE song_id = ?;
     DELETE FROM song_label WHERE song_id = ?;
 
-    INSERT INTO song_artists (song_id, artist_id)
+    INSERT INTO song_artist (song_id, artist_id)
     SELECT ?, id FROM artists WHERE name IN (?);
 
-    INSERT INTO song_albums (song_id, album_id)
+    INSERT INTO song_album (song_id, album_id)
     SELECT ?, id FROM albums WHERE title IN (?);
 
     INSERT INTO song_genre (song_id, genre_id)
@@ -172,10 +172,10 @@ export async function createSong_db(
 
     SET @songId = LAST_INSERT_ID();
 
-    INSERT INTO song_artists (song_id, artist_id)
+    INSERT INTO song_artist (song_id, artist_id)
     SELECT @songId AS song_id, id FROM artists WHERE name IN (?);
 
-    INSERT INTO song_albums (song_id, album_id)
+    INSERT INTO song_album (song_id, album_id)
     SELECT @songId AS song_id, id FROM albums WHERE title IN (?);
 
     INSERT INTO song_genre (song_id, genre_id)
@@ -209,8 +209,8 @@ export async function deleteSong_db(id) {
   const sql = `
     START TRANSACTION;
 
-    DELETE FROM song_artists WHERE song_id = ?;
-    DELETE FROM song_albums WHERE song_id = ?;
+    DELETE FROM song_artist WHERE song_id = ?;
+    DELETE FROM song_album WHERE song_id = ?;
     DELETE FROM song_genre WHERE song_id = ?;
     DELETE FROM song_label WHERE song_id = ?;
 
