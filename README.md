@@ -2,12 +2,12 @@
 
 # Music Artist Showcase Backend
 
-## Project website 
-https://musicbase-backend-madeinchina.azurewebsites.net/ - (hosted on Azure)
+## Project website - Deployed on Azure
+https://musicbase-backend-madeinchina.azurewebsites.net/ 
 
 ## Link to frontend repository
 
-https://github.com/Dennis2300/music-base-frontend/issues
+https://github.com/Dennis2300/music-base-frontend/
 
 
 ## Technologies Used
