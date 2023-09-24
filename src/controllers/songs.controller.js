@@ -29,8 +29,16 @@ export async function readSongById(req, res) {
 
 export async function updateSong(req, res) {
   const id = req.params.id;
-  const { title, duration, releaseDate, bonus_track, artists, albums} =
-    req.body;
+  const {
+    title,
+    duration,
+    releaseDate,
+    bonus_track,
+    artists,
+    albums,
+    genres,
+    labels,
+  } = req.body;
 
   try {
     const updatedSong = await updateSong_db(
@@ -40,7 +48,9 @@ export async function updateSong(req, res) {
       releaseDate,
       bonus_track,
       artists,
-      albums   
+      albums,
+      genres,
+      labels
     );
     res.status(200).json(updatedSong);
   } catch (err) {
@@ -50,8 +60,16 @@ export async function updateSong(req, res) {
 }
 
 export async function createSong(req, res) {
-  const { title, duration, releaseDate, bonus_track, artists, albums } =
-    req.body;
+  const {
+    title,
+    duration,
+    releaseDate,
+    bonus_track,
+    artists,
+    albums,
+    genres,
+    labels,
+  } = req.body;
   try {
     const newSong = await createSong_db(
       title,
@@ -59,9 +77,11 @@ export async function createSong(req, res) {
       releaseDate,
       bonus_track,
       artists,
-      albums
+      albums,
+      genres,
+      labels
     );
-    
+
     console.log(newSong);
     res.status(200).json(newSong);
   } catch (err) {
@@ -74,9 +94,9 @@ export async function deleteSong(req, res) {
   const id = req.params.id;
   try {
     deleteSong_db(id);
-    res.status(200).json({message: 'Song deleted successfully'})
+    res.status(200).json({ message: 'Song deleted successfully' });
   } catch (err) {
     console.log(err);
-    res.status(500).json({ error: 'An error occured while deleting song'});
+    res.status(500).json({ error: 'An error occured while deleting song' });
   }
 }

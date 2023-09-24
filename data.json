@@ -1,0 +1,591 @@
+{
+    "artists": [
+      {
+        "name": "Adele",
+        "birthdate": "1988-05-05",
+        "activeSince": 2006,
+        "website": "https://www.adele.com/",
+        "image": "https://www.adele.com/image.jpg",
+        "shortDescription": "British singer-songwriter known for her powerful voice.",
+        "favorite": null,
+        "genres": ["Pop", "Soul", "R&B"],
+        "labels": ["Columbia Records", "XL Recordings"],
+        "albums": ["21", "25"],
+        "songs": ["Rolling in the Deep", "Someone Like You", "Hello", "When We Were Young"]
+      },
+      {
+        "name": "Beyoncé",
+        "birthdate": "1981-09-04",
+        "activeSince": 1997,
+        "website": "https://www.beyonce.com/",
+        "image": "https://www.beyonce.com/image.jpg",
+        "shortDescription": "American singer, songwriter, and actress.",
+        "favorite": null,
+        "genres": ["R&B", "Pop"],
+        "labels": ["Columbia Records", "Parkwood Entertainment"],
+        "albums": ["Dangerously In Love", "Lemonade"],
+        "songs": ["Crazy in Love", "Baby Boy", "Formation", "Sorry"]
+      },
+      {
+        "name": "Ed Sheeran",
+        "birthdate": "1991-02-17",
+        "activeSince": 2004,
+        "website": "https://www.edsheeran.com/",
+        "image": "https://www.edsheeran.com/image.jpg",
+        "shortDescription": "English singer-songwriter and musician.",
+        "favorite": null,
+        "genres": ["Pop", "Folk", "Acoustic"],
+        "labels": [],
+        "albums": ["÷ (Divide)"],
+        "songs": ["Shape of You", "Castle on the Hill"]
+      },
+      {
+        "name": "Taylor Swift",
+        "birthdate": "1989-12-13",
+        "activeSince": 2006,
+        "website": "https://www.taylorswift.com/",
+        "image": "https://www.taylorswift.com/image.jpg",
+        "shortDescription": "American singer-songwriter known for her storytelling songs.",
+        "favorite": null,
+        "genres": ["Pop", "Country"],
+        "labels": ["Big Machine Records", "Republic Records"],
+        "albums": ["Fearless", "1989"],
+        "songs": ["Love Story", "You Belong with Me", "Shake It Off", "Blank Space"]
+      },
+      {
+        "name": "Bruno Mars",
+        "birthdate": "1985-10-08",
+        "activeSince": 2004,
+        "website": "https://www.brunomars.com/",
+        "image": "https://www.brunomars.com/image.jpg",
+        "shortDescription": "American singer, songwriter, and record producer.",
+        "favorite": null,
+        "genres": ["Pop", "R&B", "Funk"],
+        "labels": ["Atlantic Records"],
+        "albums": ["24K Magic"],
+        "songs": ["24K Magic", "That's What I Like", "Versace on the Floor"]
+      },
+      {
+        "name": "Billie Eilish",
+        "birthdate": "2001-12-18",
+        "activeSince": 2015,
+        "website": "https://www.billieeilish.com/",
+        "image": "https://www.billieeilish.com/image.jpg",
+        "shortDescription": "American singer-songwriter known for her unique style.",
+        "favorite": null,
+        "genres": ["Pop", "Electronik"],
+        "labels": ["Darkroom", "Interscope Records"],
+        "albums": ["When We All Fall Asleep, Where Do We Go?"],
+        "songs": ["Bad Guy", "Ocean Eyes", "When the Party's Over"]
+      },
+      {
+        "name": "Eminem",
+        "birthdate": "1972-10-17",
+        "activeSince": 1988,
+        "website": "https://www.eminem.com/",
+        "image": "https://www.eminem.com/image.jpg",
+        "shortDescription": "American rapper, songwriter, and record producer.",
+        "favorite": null,
+        "genres": ["Hip-Hop", "Rap"],
+        "labels": ["Aftermath Entertainment", "Shady Records", "Interscope Records"],
+        "albums": ["The Marshall Mathers LP", "Recovery"],
+        "songs": ["Lose Yourself", "Love the Way You Lie", "Not Afraid"]
+      },
+      {
+        "name": "Ariana Grande",
+        "birthdate": "1993-06-26",
+        "activeSince": 2008,
+        "website": "https://www.arianagrande.com/",
+        "image": "https://www.arianagrande.com/image.jpg",
+        "shortDescription": "American singer and actress known for her vocal range.",
+        "favorite": null,
+        "genres": ["Pop", "R&B"],
+        "labels": ["Republic Records"],
+        "albums": ["Thank U, Next", "Dangerous Woman"],
+        "songs": ["Thank U, Next", "Dangerous Woman", "No Tears Left to Cry"]
+      },
+      {
+        "name": "Justin Bieber",
+        "birthdate": "1994-03-01",
+        "activeSince": 2007,
+        "website": "https://www.justinbiebermusic.com/",
+        "image": "https://www.justinbiebermusic.com/image.jpg",
+        "shortDescription": "Canadian singer-songwriter and pop icon.",
+        "favorite": null,
+        "genres": ["Pop", "R&B"],
+        "labels": ["Def Jam Recordings"],
+        "albums": ["Purpose", "Changes"],
+        "songs": ["Sorry", "Yummy", "Intentions"]
+      },
+      {
+        "name": "Katy Perry",
+        "birthdate": "1984-10-25",
+        "activeSince": 2001,
+        "website": "https://www.katyperry.com/",
+        "image": "https://www.katyperry.com/image.jpg",
+        "shortDescription": "American singer, songwriter, and television judge.",
+        "favorite": null,
+        "genres": ["Pop"],
+        "labels": ["Capitol Records"],
+        "albums": ["Teenage Dream", "Prism"],
+        "songs": ["Firework", "Roar", "Dark Horse"]
+      },
+      {
+        "name": "Coldplay",
+        "birthdate": "1996-01-16",
+        "activeSince": 1996,
+        "website": "https://www.coldplay.com/",
+        "image": "https://www.coldplay.com/image.jpg",
+        "shortDescription": "British rock band known for their anthemic songs.",
+        "favorite": null,
+        "genres": ["Rock", "Pop"],
+        "labels": ["Parlophone", "Atlantic Records"],
+        "albums": ["Parachutes", "A Head Full of Dreams"],
+        "songs": ["Yellow", "Fix You", "Viva la Vida"]
+      },
+      {
+        "name": "Rihanna",
+        "birthdate": "1988-02-20",
+        "activeSince": 2003,
+        "website": "https://www.rihannanow.com/",
+        "image": "https://www.rihannanow.com/image.jpg",
+        "shortDescription": "Barbadian singer, actress, and fashion designer.",
+        "favorite": null,
+        "genres": ["R&B", "Pop"],
+        "labels": ["Roc Nation", "Def Jam Recordings"],
+        "albums": ["Good Girl Gone Bad", "Anti"],
+        "songs": ["Umbrella", "Diamonds", "Work"]
+      },
+      {
+        "name": "Michael Jackson",
+        "birthdate": "1958-08-29",
+        "activeSince": 1964,
+        "website": "https://www.michaeljackson.com/",
+        "image": "https://www.michaeljackson.com/image.jpg",
+        "shortDescription": "King of Pop and one of the most iconic musicians of all time.",
+        "favorite": null,
+        "genres": ["Pop", "R&B"],
+        "labels": ["Epic Records", "Motown"],
+        "albums": ["Thriller", "Bad"],
+        "songs": ["Billie Jean", "Beat It", "Thriller"]
+      },
+      {
+        "name": "Alicia Keys",
+        "birthdate": "1981-01-25",
+        "activeSince": 1996,
+        "website": "https://www.aliciakeys.com/",
+        "image": "https://www.aliciakeys.com/image.jpg",
+        "shortDescription": "American singer-songwriter, pianist, and record producer.",
+        "favorite": null,
+        "genres": ["R&B", "Soul"],
+        "labels": ["RCA Records"],
+        "albums": ["Songs in A Minor", "The Diary of Alicia Keys"],
+        "songs": ["Fallin'", "No One", "If I Ain't Got You"]
+      }],
+  "songs": [
+    {
+      "title": "I Don't Want to Miss a Thing",
+      "duration": 286,
+      "releaseDate": "1998-06-23",
+      "bonus_track": false,
+      "albums": ["Armageddon: The Album"],
+      "genres": ["Rock"],
+      "labels": ["Columbia Records"],
+      "artists": ["Aerosmith", "Diane Warren"]
+    },
+    {
+      "title": "Despacito",
+      "duration": 228,
+      "releaseDate": "2017-01-12",
+      "bonus_track": false,
+      "albums": ["Vida"],
+      "genres": ["Pop", "Reggaeton"],
+      "labels": ["UMLE"],
+      "artists": ["Luis Fonsi", "Daddy Yankee"]
+    },
+    {
+      "title": "Lady Marmalade",
+      "duration": 260,
+      "releaseDate": "2001-02-27",
+      "bonus_track": false,
+      "albums": ["Moulin Rouge! Music from Baz Luhrmann's Film"],
+      "genres": ["Pop", "R&B"],
+      "labels": ["Interscope Records"],
+      "artists": ["Christina Aguilera", "Lil' Kim", "Mýa", "P!nk"]
+    },
+    {
+      "title": "We Are the World",
+      "duration": 458,
+      "releaseDate": "1985-03-07",
+      "bonus_track": false,
+      "albums": ["We Are the World"],
+      "genres": ["Pop", "Rock"],
+      "labels": ["Columbia Records"],
+      "artists": ["USA for Africa"]
+    },
+    {
+      "title": "The Girl Is Mine",
+      "duration": 201,
+      "releaseDate": "1982-10-18",
+      "bonus_track": false,
+      "albums": ["Thriller"],
+      "genres": ["Pop", "R&B"],
+      "labels": ["Epic Records"],
+      "artists": ["Michael Jackson", "Paul McCartney"]
+    },
+    {
+      "title": "Endless Love",
+      "duration": 258,
+      "releaseDate": "1981-07-01",
+      "bonus_track": false,
+      "albums": ["Endless Love: Original Motion Picture Soundtrack"],
+      "genres": ["Pop", "R&B"],
+      "labels": ["Motown"],
+      "artists": ["Diana Ross", "Lionel Richie"]
+    },
+    {
+      "title": "Say Say Say",
+      "duration": 230,
+      "releaseDate": "1983-10-03",
+      "bonus_track": false,
+      "albums": ["Pipes of Peace"],
+      "genres": ["Pop", "Rock"],
+      "labels": ["Parlophone"],
+      "artists": ["Paul McCartney", "Michael Jackson"]
+    },
+    {
+      "title": "Ebony and Ivory",
+      "duration": 224,
+      "releaseDate": "1982-03-29",
+      "bonus_track": false,
+      "albums": ["Tug of War"],
+      "genres": ["Pop", "R&B"],
+      "labels": ["Parlophone"],
+      "artists": ["Paul McCartney", "Stevie Wonder"]
+    },
+    {
+      "title": "Cruisin'",
+      "duration": 188,
+      "releaseDate": "1979-06-08",
+      "bonus_track": false,
+      "albums": ["Cruisin'"],
+      "genres": ["R&B", "Soul"],
+      "labels": ["Motown"],
+      "artists": ["Smokey Robinson", "Smokey Robinson"]
+    },
+    {
+      "title": "I Got You Babe",
+      "duration": 196,
+      "releaseDate": "1965-06-09",
+      "bonus_track": false,
+      "albums": ["Look at Us"],
+      "genres": ["Pop", "Rock"],
+      "labels": ["Atco Records"],
+      "artists": ["Sonny & Cher"]
+    },
+    {
+      "title": "Rolling in the Deep",
+      "duration": 228,
+      "releaseDate": "2010-11-29",
+      "bonus_track": false,
+      "albums": ["21"],
+      "genres": ["Pop", "Soul"],
+      "labels": ["Columbia Records", "XL Recordings"],
+      "artists": ["Adele"]
+    },
+    {
+      "title": "Halo",
+      "duration": 235,
+      "releaseDate": "2008-01-20",
+      "bonus_track": false,
+      "albums": ["I Am... Sasha Fierce"],
+      "genres": ["R&B", "Pop"],
+      "labels": ["Columbia Records"],
+      "artists": ["Beyoncé"]
+    },
+    {
+      "title": "Shape of You",
+      "duration": 233,
+      "releaseDate": "2017-01-06",
+      "bonus_track": false,
+      "albums": ["÷"],
+      "genres": ["Pop"],
+      "labels": ["Atlantic Records"],
+      "artists": ["Ed Sheeran"]
+    },
+    {
+      "title": "Blank Space",
+      "duration": 231,
+      "releaseDate": "2014-11-10",
+      "bonus_track": false,
+      "albums": ["1989"],
+      "genres": ["Pop"],
+      "labels": ["Big Machine Records"],
+      "artists": ["Taylor Swift"]
+    },
+    {
+      "title": "Uptown Funk",
+      "duration": 270,
+      "releaseDate": "2014-11-10",
+      "bonus_track": false,
+      "albums": ["24K Magic"],
+      "genres": ["Pop", "Funk", "R&B"],
+      "labels": ["Atlantic Records"],
+      "artists": ["Bruno Mars"]
+    },
+    {
+      "title": "Bad Guy",
+      "duration": 194,
+      "releaseDate": "2019-03-29",
+      "bonus_track": false,
+      "albums": ["When We All Fall Asleep, Where Do We Go?"],
+      "genres": ["Pop", "Electropop"],
+      "labels": ["Darkroom", "Interscope Records"],
+      "artists": ["Billie Eilish"]
+    },
+    {
+      "title": "Lose Yourself",
+      "duration": 326,
+      "releaseDate": "2002-10-22",
+      "bonus_track": false,
+      "albums": ["8 Mile: Music from and Inspired by the Motion Picture"],
+      "genres": ["Hip-Hop", "Rap"],
+      "labels": ["Aftermath Entertainment", "Shady Records", "Interscope Records"],
+      "artists": ["Eminem"]
+    },
+    {
+      "title": "Thank U, Next",
+      "duration": 207,
+      "releaseDate": "2019-11-03",
+      "bonus_track": false,
+      "albums": ["Thank U, Next"],
+      "genres": ["Pop", "R&B"],
+      "labels": ["Republic Records"],
+      "artists": ["Ariana Grande"]
+    },
+    {
+      "title": "Sorry",
+      "duration": 199,
+      "releaseDate": "2015-10-22",
+      "bonus_track": false,
+      "albums": ["Purpose"],
+      "genres": ["Pop", "R&B"],
+      "labels": ["Def Jam Recordings"],
+      "artists": ["Justin Bieber"]
+    },
+    {
+      "title": "Firework",
+      "duration": 227,
+      "releaseDate": "2010-10-25",
+      "bonus_track": false,
+      "albums": ["Teenage Dream"],
+      "genres": ["Pop"],
+      "labels": ["Capitol Records"],
+      "artists": ["Katy Perry"]
+    },
+    {
+      "title": "Yellow",
+      "duration": 266,
+      "releaseDate": "2000-06-26",
+      "bonus_track": false,
+      "albums": ["Parachutes"],
+      "genres": ["Alternative", "Rock"],
+      "labels": ["Parlophone"],
+      "artists": ["Coldplay"]
+    },
+    {
+      "title": "Umbrella",
+      "duration": 273,
+      "releaseDate": "2007-03-29",
+      "bonus_track": false,
+      "albums": ["Good Girl Gone Bad"],
+      "genres": ["R&B", "Pop"],
+      "labels": ["Roc Nation", "Def Jam Recordings"],
+      "artists": ["Rihanna"]
+    },
+    {
+      "title": "Billie Jean",
+      "duration": 294,
+      "releaseDate": "1983-01-02",
+      "bonus_track": false,
+      "albums": ["Thriller"],
+      "genres": ["Pop", "R&B"],
+      "labels": ["Epic Records", "Motown"],
+      "artists": ["Michael Jackson"]
+    },
+    {
+      "title": "No One",
+      "duration": 232,
+      "releaseDate": "2007-09-10",
+      "bonus_track": false,
+      "albums": ["As I Am"],
+      "genres": ["R&B", "Soul"],
+      "labels": ["RCA Records"],
+      "artists": ["Alicia Keys"]
+    }
+  ],
+  "albums": [
+    {
+      "title": "21",
+      "releaseDate": "2011-01-19",
+      "artists": ["Adele"],
+      "labels": ["Columbia Records", "XL Recordings"],
+      "genres": ["Pop", "Soul", "R&B"],
+      "songs": ["Rolling in the Deep", "Someone Like You"]
+    },
+    {
+      "title": "Dangerously In Love",
+      "releaseDate": "2003-06-20",
+      "artists": ["Beyoncé"],
+      "labels": ["Columbia Records", "Parkwood Entertainment"],
+      "genres": ["R&B", "Pop"],
+      "songs": ["Crazy in Love", "Baby Boy"]
+    },
+    {
+      "title": "÷ (Divide)",
+      "releaseDate": "2017-03-03",
+      "artists": ["Ed Sheeran"],
+      "labels": [],
+      "genres": ["Pop", "Folk", "Acoustic"],
+      "songs": ["Shape of You", "Castle on the Hill"]
+    },
+    {
+      "title": "Fearless",
+      "releaseDate": "2008-11-11",
+      "artists": ["Taylor Swift"],
+      "labels": ["Big Machine Records", "Republic Records"],
+      "genres": ["Pop", "Country"],
+      "songs": ["Love Story", "You Belong with Me"]
+    },
+    {
+      "title": "24K Magic",
+      "releaseDate": "2016-11-18",
+      "artists": ["Bruno Mars"],
+      "labels": ["Atlantic Records"],
+      "genres": ["Pop", "R&B", "Funk"],
+      "songs": ["24K Magic", "That's What I Like"]
+    },
+    {
+      "title": "When We All Fall Asleep, Where Do We Go?",
+      "releaseDate": "2019-03-29",
+      "artists": ["Billie Eilish"],
+      "labels": ["Darkroom", "Interscope Records"],
+      "genres": ["Pop", "Electronik"],
+      "songs": ["Bad Guy", "Ocean Eyes"]
+    },
+    {
+      "title": "The Marshall Mathers LP",
+      "releaseDate": "2000-05-23",
+      "artists": ["Eminem"],
+      "labels": ["Aftermath Entertainment", "Shady Records", "Interscope Records"],
+      "genres": ["Hip-Hop", "Rap"],
+      "songs": ["Stan", "The Real Slim Shady"]
+    },
+    {
+      "title": "Thank U, Next",
+      "releaseDate": "2019-02-08",
+      "artists": ["Ariana Grande"],
+      "labels": ["Republic Records"],
+      "genres": ["Pop", "R&B"],
+      "songs": ["Thank U, Next", "7 Rings"]
+    },
+    {
+      "title": "Purpose",
+      "releaseDate": "2015-11-13",
+      "artists": ["Justin Bieber"],
+      "labels": ["Def Jam Recordings"],
+      "genres": ["Pop", "R&B"],
+      "songs": ["Sorry", "Love Yourself"]
+    },
+    {
+      "title": "Teenage Dream",
+      "releaseDate": "2010-08-24",
+      "artists": ["Katy Perry"],
+      "labels": ["Capitol Records"],
+      "genres": ["Pop"],
+      "songs": ["California Gurls", "Teenage Dream"]
+    },
+    {
+        "title": "Black Panther: The Album",
+        "releaseDate": "2018-02-09",
+        "artists": ["Various Artists"],
+        "labels": ["Top Dawg Entertainment", "Aftermath Entertainment", "Interscope Records"],
+        "genres": ["Hip-Hop", "Rap", "Soundtrack"],
+        "songs": ["All the Stars", "Pray For Me"]
+      },
+      {
+        "title": "Sweetener",
+        "releaseDate": "2018-08-17",
+        "artists": ["Ariana Grande"],
+        "labels": ["Republic Records"],
+        "genres": ["Pop", "R&B"],
+        "songs": ["No Tears Left to Cry", "God Is a Woman"]
+      },
+      {
+        "title": "Scorpion",
+        "releaseDate": "2018-06-29",
+        "artists": ["Drake"],
+        "labels": ["Young Money Entertainment", "Cash Money Records"],
+        "genres": ["Hip-Hop", "Rap"],
+        "songs": ["God's Plan", "In My Feelings"]
+      },
+      {
+        "title": "The Fame",
+        "releaseDate": "2008-08-19",
+        "artists": ["Lady Gaga"],
+        "labels": ["Interscope Records"],
+        "genres": ["Pop", "Electronik"],
+        "songs": ["Just Dance", "Poker Face"]
+      },
+      {
+        "title": "21st Century Liability",
+        "releaseDate": "2018-07-06",
+        "artists": ["YUNGBLUD"],
+        "labels": ["Locomotion Recordings", "Geffen Records"],
+        "genres": ["Rock", "Alternative"],
+        "songs": ["Medication", "Polygraph Eyes"]
+      },
+      {
+        "title": "My Beautiful Dark Twisted Fantasy",
+        "releaseDate": "2010-11-22",
+        "artists": ["Kanye West"],
+        "labels": ["Roc-A-Fella Records", "Def Jam Recordings"],
+        "genres": ["Hip-Hop", "Rap"],
+        "songs": ["Power", "Runaway"]
+      },
+      {
+        "title": "Rumors",
+        "releaseDate": "1977-02-04",
+        "artists": ["Fleetwood Mac"],
+        "labels": ["Warner Bros. Records"],
+        "genres": ["Rock"],
+        "songs": ["Go Your Own Way", "Dreams"]
+      },
+      {
+        "title": "Good Kid, M.A.A.D City",
+        "releaseDate": "2012-10-22",
+        "artists": ["Kendrick Lamar"],
+        "labels": ["Top Dawg Entertainment", "Aftermath Entertainment", "Interscope Records"],
+        "genres": ["Hip-Hop", "Rap"],
+        "songs": ["Swimming Pools (Drank)", "Bitch, Don't Kill My Vibe"]
+      },
+      {
+        "title": "Born to Die",
+        "releaseDate": "2012-01-27",
+        "artists": ["Lana Del Rey"],
+        "labels": ["Interscope Records"],
+        "genres": ["Pop", "Indie Pop"],
+        "songs": ["Video Games", "Summertime Sadness"]
+      },
+      {
+        "title": "Back to Black",
+        "releaseDate": "2006-10-27",
+        "artists": ["Amy Winehouse"],
+        "labels": ["Island Records"],
+        "genres": ["Soul", "R&B"],
+        "songs": ["Rehab", "Back to Black"]
+      }
+  ]
+}
+
+
