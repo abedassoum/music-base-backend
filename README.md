@@ -9,9 +9,6 @@ https://musicbase-backend-madeinchina.azurewebsites.net/ - (hosted on Azure)
 
 https://github.com/Dennis2300/music-base-frontend/issues
 
-## Link to deployed frontend
-
-https://musicbase-frontend-madeinchina.azurewebsites.net/
 
 ## Technologies Used
 
