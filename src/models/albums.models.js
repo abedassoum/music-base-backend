@@ -43,8 +43,8 @@ export async function readAllAlbums_db() {
       labels: album.labels ? album.labels.split(',') : [],
       genres: album.genres ? album.genres.split(',') : [],
       songs: album.songs ? album.songs.split(',') : [],
-  }));
-  return albums;
+    }));
+    return albums;
   } catch (error) {
     console.error('Error  reading all albums', error);
     throw error;
@@ -119,7 +119,7 @@ export async function updateAlbum_db(
     INSERT INTO album_label (album_id, label_id)
     SELECT ?, id FROM labels WHERE name IN (?);
 
-    INSERT INTO album_genre (genre_id, album_id)
+    INSERT INTO album_genre (album_id, genre_id)
     SELECT ?, id FROM genres WHERE name IN (?);
 
     INSERT INTO song_album (song_id, album_id)
