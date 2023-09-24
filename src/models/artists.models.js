@@ -126,10 +126,10 @@ export async function updateArtist_db(
     SELECT ?, id FROM labels WHERE name IN (?);
 
     INSERT INTO album_artist (album_id, artist_id)
-    SELECT id, ? FROM albums WHERE title IN (?);
+    SELECT ?, id FROM albums WHERE title IN (?);
 
     INSERT INTO song_artist (song_id, artist_id)
-    SELECT id, ? FROM songs WHERE title IN (?);
+    SELECT ?, id FROM songs WHERE title IN (?);
 
     COMMIT;
   `;
@@ -143,6 +143,8 @@ export async function updateArtist_db(
       image,
       shortDescription,
       favorite,
+      artistId,
+      artistId,
       artistId,
       artistId,
       artistId,
@@ -186,17 +188,17 @@ export async function createArtist_db(
     SET @artistId = LAST_INSERT_ID();
     
     INSERT INTO artist_genre (artist_id, genre_id)
-    SELECT @artistId AS artist_id, id FROM genres WHERE name IN (?);
+    SELECT @artistId, id FROM genres WHERE name IN (?);
     
     INSERT INTO artist_label (artist_id, label_id)
-    SELECT @artistId AS artist_id, id FROM labels WHERE name IN (?);
+    SELECT @artistId, id FROM labels WHERE name IN (?);
 
-    INSERT INTO album_artist (album_id, artist_id)
-    SELECT id, @artistId FROM albums WHERE title IN (?);
+    INSERT INTO album_artist (artist_id, album_id)
+    SELECT @artistId, id FROM albums WHERE title IN (?);
 
-    INSERT INTO song_artist (song_id, artist_id)
-    SELECT id, @artistId FROM songs WHERE title IN (?);
-
+    INSERT INTO song_artist (artist_id, song_id)
+    SELECT @artistId, id FROM songs WHERE title IN (?);
+    
     COMMIT;
   `;
 
@@ -211,6 +213,8 @@ export async function createArtist_db(
       favorite,
       genres,
       labels,
+      albums,
+      songs,
     ]);
 
     return results;
@@ -235,7 +239,7 @@ export async function deleteArtist_db(id) {
   `;
 
   try {
-    const results = await query(sql, [id, id, id]);
+    const results = await query(sql, [id, id, id, id, id]);
     return results;
   } catch (error) {
     console.error('Error deleting artist:', error);

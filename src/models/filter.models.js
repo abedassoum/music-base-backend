@@ -9,8 +9,60 @@ async function query(sql, params) {
   });
 }
 
-export async function filterGenres_db(table) {
-  const sql = `SELECT * FROM ${table}`;
+export class filter_db {
+  static async filterForLabel_db(labels, table) {
+    const sql = `SELECT * FROM ${table} WHERE label_id IN (?)`;
+    try {
+      const results = await query(sql, [labels]);
+      return results;
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  static async filterForGenre_db(genres, table) {
+    const sql = `SELECT * FROM ${table} WHERE genre_id IN (?)`;
+    try {
+      const results = await query(sql, [genres]);
+      return results;
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  static async filterForArtist_db(artists, table) {
+    const sql = `SELECT * FROM ${table} WHERE artist_id IN (?)`;
+    try {
+      const results = await query(sql, [artists]);
+      return results;
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  static async filterForAlbum_db(albums, table) {
+    const sql = `SELECT * FROM ${table} WHERE album_id IN (?)`;
+    try {
+      const results = await query(sql, [albums]);
+      return results;
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  static async filterForSong_db(songs, table) {
+    const sql = `SELECT * FROM ${table} WHERE song_id IN (?)`;
+    try {
+      const results = await query(sql, [songs]);
+      return results;
+    } catch (err) {
+      console.log(err);
+    }
+  }
+}
+
+export async function getGenres_db() {
+  const sql = `SELECT * FROM genres`;
   try {
     const results = await query(sql);
     return results;
@@ -19,28 +71,8 @@ export async function filterGenres_db(table) {
   }
 }
 
-export async function filterLabels_db(table) {
-  const sql = `SELECT * FROM ${table}`;
-  try {
-    const results = await query(sql);
-    return results;
-  } catch (err) {
-    console.log(err);
-  }
-}
-
-export async function getGenreNames_db () {
-  const sql = `SELECT name FROM genres`;
-  try {
-    const results = await query(sql);
-    return results;
-  } catch (err) {
-    console.log(err);
-  }
-}
-
-export async function getLabelNames_db () {
-  const sql = `SELECT name FROM labels`;
+export async function getLabels_db() {
+  const sql = `SELECT * FROM labels`;
   try {
     const results = await query(sql);
     return results;
