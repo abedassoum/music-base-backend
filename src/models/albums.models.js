@@ -36,7 +36,15 @@ export async function readAllAlbums_db() {
 
   try {
     const results = await query(sql);
-    return results;
+
+    const albums = results.map(album => ({
+      ...album,
+      artists: album.artists ? album.artists.split(',') : [],
+      labels: album.labels ? album.labels.split(',') : [],
+      genres: album.genres ? album.genres.split(',') : [],
+      songs: album.songs ? album.songs.split(',') : [],
+  }));
+  return albums;
   } catch (error) {
     console.error('Error  reading all albums', error);
     throw error;
@@ -179,7 +187,7 @@ export async function createAlbum_db(
   try {
     const results = await query(sql, values);
     return results;
-  } catch {
+  } catch (error) {
     console.error('Error creating album', error);
     throw error;
   }
