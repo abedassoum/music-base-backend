@@ -24,8 +24,10 @@ export async function readAllSongs_db() {
     LEFT JOIN artists ON song_artist.artist_id = artists.id
     LEFT JOIN song_album ON songs.id = song_album.song_id
     LEFT JOIN albums ON song_album.album_id = albums.id
+
     LEFT JOIN song_genre ON songs.id = song_genre.song_id
     LEFT JOIN genres ON song_genre.genre_id = genres.id
+    
     LEFT JOIN song_label ON songs.id = song_label.song_id
     LEFT JOIN labels ON song_label.label_id = labels.id
     GROUP BY songs.id
@@ -42,7 +44,7 @@ export async function readAllSongs_db() {
       albums: song.albums ? song.albums.split(',') : [],
       artists: song.artists ? song.artists.split(',') : [],
     }));
-    return results;
+    return songs;
   } catch (error) {
     console.error('Error reading all songs:', error);
     throw error;
