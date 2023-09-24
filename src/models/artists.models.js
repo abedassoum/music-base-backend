@@ -125,10 +125,10 @@ export async function updateArtist_db(
     INSERT INTO artist_label (artist_id, label_id)
     SELECT ?, id FROM labels WHERE name IN (?);
 
-    INSERT INTO album_artist (album_id, artist_id)
+    INSERT INTO album_artist (artist_id, album_id)
     SELECT ?, id FROM albums WHERE title IN (?);
 
-    INSERT INTO song_artist (song_id, artist_id)
+    INSERT INTO song_artist (artist_id, song_id)
     SELECT ?, id FROM songs WHERE title IN (?);
 
     COMMIT;

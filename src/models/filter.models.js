@@ -10,50 +10,50 @@ async function query(sql, params) {
 }
 
 export class filter_db {
-  static async filterForLabel_db(labels, table) {
+  static async filterForLabel_db(label, table) {
     const sql = `SELECT * FROM ${table} WHERE label_id IN (?)`;
     try {
-      const results = await query(sql, [labels]);
+      const results = await query(sql, [label]);
       return results;
     } catch (err) {
       console.log(err);
     }
   }
 
-  static async filterForGenre_db(genres, table) {
+  static async filterForGenre_db(genre, table) {
     const sql = `SELECT * FROM ${table} WHERE genre_id IN (?)`;
     try {
-      const results = await query(sql, [genres]);
+      const results = await query(sql, [genre]);
       return results;
     } catch (err) {
       console.log(err);
     }
   }
 
-  static async filterForArtist_db(artists, table) {
+  static async filterForArtist_db(artist, table) {
     const sql = `SELECT * FROM ${table} WHERE artist_id IN (?)`;
     try {
-      const results = await query(sql, [artists]);
+      const results = await query(sql, [artist]);
       return results;
     } catch (err) {
       console.log(err);
     }
   }
 
-  static async filterForAlbum_db(albums, table) {
+  static async filterForAlbum_db(album, table) {
     const sql = `SELECT * FROM ${table} WHERE album_id IN (?)`;
     try {
-      const results = await query(sql, [albums]);
+      const results = await query(sql, [album]);
       return results;
     } catch (err) {
       console.log(err);
     }
   }
 
-  static async filterForSong_db(songs, table) {
+  static async filterForSong_db(song, table) {
     const sql = `SELECT * FROM ${table} WHERE song_id IN (?)`;
     try {
-      const results = await query(sql, [songs]);
+      const results = await query(sql, [song]);
       return results;
     } catch (err) {
       console.log(err);

@@ -1,7 +1,6 @@
 import {
   getGenres_db,
   getLabels_db,
-  filter_db
 } from '../models/filter.models.js';
 
 export async function getGenres(req, res) {

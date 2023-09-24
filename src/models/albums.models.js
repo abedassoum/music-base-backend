@@ -122,7 +122,7 @@ export async function updateAlbum_db(
     INSERT INTO album_genre (album_id, genre_id)
     SELECT ?, id FROM genres WHERE name IN (?);
 
-    INSERT INTO song_album (song_id, album_id)
+    INSERT INTO song_album (album_id, song_id)
     SELECT ?, id FROM songs WHERE title IN (?);
 
     COMMIT;
