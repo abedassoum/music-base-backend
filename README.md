@@ -5,29 +5,13 @@
 ## Project website 
 https://musicbase-backend-madeinchina.azurewebsites.net/ - (hosted on Azure)
 
-## Table of Contents
+## Link to frontend repository
 
-- [Introduction](#introduction)
-- [Features](#features)
-- [Technologies Used](#technologies-used)
-- [Getting Started](#getting-started)
-  - [Prerequisites](#prerequisites)
-  - [Installation](#installation)
-- [Database Setup](#database-setup)
-- [Backend Configuration](#backend-configuration)
-- [Deployment](#deployment)
-- [Contributing](#contributing)
-- [License](#license)
+https://github.com/Dennis2300/music-base-frontend/issues
 
-## Introduction
+## Link to deployed frontend
 
-The Music Artist Showcase Backend is the server-side component of the Music Artist Showcase project. It is responsible for managing artist, album, and song data and providing APIs for the frontend to interact with. This README will guide you through setting up, configuring, and deploying the backend.
-
-## Features
-
-- RESTful APIs for managing artists, albums, and songs.
-- Database interactions with MySQL.
-- Seamless integration with the Music Artist Showcase frontend.
+https://musicbase-frontend-madeinchina.azurewebsites.net/
 
 ## Technologies Used
 
